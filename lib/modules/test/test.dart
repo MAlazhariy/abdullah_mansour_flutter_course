@@ -10,9 +10,9 @@ class Test extends StatelessWidget{
   Widget build(BuildContext context) {
 
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
+        const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent
-          //color set to transperent or set your own color
+          //color set to transparent or set your own color
         )
     );
 
@@ -22,7 +22,7 @@ class Test extends StatelessWidget{
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Image(
+            const Image(
               image: NetworkImage(
                   'https://mostaql.hsoubcdn.com/uploads/365677/6076e458c254c/logogolden-ratio2-copy.png'
               ),
@@ -31,7 +31,7 @@ class Test extends StatelessWidget{
             ),
             ImageFiltered(
               imageFilter: ImageFilter.matrix(Matrix4.rotationX(180).storage),
-              child: Image(
+              child: const Image(
                 image: NetworkImage(
                     'https://blog.lingoda.com/wp-content/uploads/2020/10/How-To-Say-Hello-in-10-Languages.jpg'
                 ),

@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 
 ThemeData darkTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
-  appBarTheme: AppBarTheme(
-    backwardsCompatibility: false,
+  appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Color(0xFF313131),
       statusBarIconBrightness: Brightness.light,
@@ -20,14 +19,14 @@ ThemeData darkTheme = ThemeData(
       fontSize: 20,
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: Color(0xFF313131),
     elevation: 0,
     type: BottomNavigationBarType.fixed,
     unselectedItemColor: Color(0xC99E9B9B),
   ),
-  scaffoldBackgroundColor: Color(0xFF313131),
-  textTheme: TextTheme(
+  scaffoldBackgroundColor: const Color(0xFF313131),
+  textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 17,
@@ -52,8 +51,7 @@ ThemeData darkTheme = ThemeData(
 
 ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
-  appBarTheme: AppBarTheme(
-    backwardsCompatibility: false,
+  appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
@@ -70,13 +68,13 @@ ThemeData lightTheme = ThemeData(
     ),
 
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: Colors.white,
     elevation: 0,
     type: BottomNavigationBarType.fixed,
     // unselectedItemColor: Color(0xC98D8A8A),
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 17,

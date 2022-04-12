@@ -4,14 +4,16 @@ import 'package:firstapp/modules/bmi_app/bmi_result/bmi_result_screen.dart';
 import 'package:flutter/material.dart';
 
 class BMIScreen extends StatefulWidget {
+  const BMIScreen({Key? key}) : super(key: key);
+
   @override
-  _BMI_ScreenState createState() => _BMI_ScreenState();
+  _BMIScreenState createState() => _BMIScreenState();
 }
 
-class _BMI_ScreenState extends State<BMIScreen> {
+class _BMIScreenState extends State<BMIScreen> {
 
   bool _isMale = true;
-  double _hight = 100;
+  double _height = 100;
   int _weight = 80;
   int _age = 21;
 
@@ -20,7 +22,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
               'حاسب مؤشر كتلة الجسم',
             textDirection: TextDirection.rtl,
@@ -50,7 +52,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             // Image(
                             //   image: AssetImage(
                             //     "assets/images/male icon.png",
@@ -72,7 +74,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   /// female
                   Expanded(
                     child: GestureDetector(
@@ -89,7 +91,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             // Image(
                             //   image: AssetImage(
                             //     'assets/images/female icon.png'
@@ -128,14 +130,14 @@ class _BMI_ScreenState extends State<BMIScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'الطــول',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 8,),
+                    const SizedBox(height: 8,),
                     /// height value in cm
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -143,14 +145,14 @@ class _BMI_ScreenState extends State<BMIScreen> {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          '${_hight.round()}',
-                          style: TextStyle(
+                          '${_height.round()}',
+                          style: const TextStyle(
                             fontSize: 50,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text(
+                        const SizedBox(width: 5,),
+                        const Text(
                           'CM',
                           style: TextStyle(
                             fontSize: 25,
@@ -159,16 +161,16 @@ class _BMI_ScreenState extends State<BMIScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8,),
+                    const SizedBox(height: 8,),
                     Slider(
-                      value: _hight,
+                      value: _height,
                       max: 220,
                       min: 80,
                       activeColor: Colors.blue[300],
                       inactiveColor: Colors.blue[150],
                       onChanged: (value){
                         setState(() {
-                          _hight = value;
+                          _height = value;
                         });
                       },
                     ),
@@ -192,22 +194,22 @@ class _BMI_ScreenState extends State<BMIScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'الــوزن',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           Text(
                             '$_weight',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           /// two buttons
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -222,11 +224,11 @@ class _BMI_ScreenState extends State<BMIScreen> {
                                 heroTag: 'weight-',
                                 mini: true,
                                 elevation: 1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.remove,
                                 ),
                               ),
-                              SizedBox(width: 8,),
+                              const SizedBox(width: 8,),
                               /// plus
                               FloatingActionButton(
                                 onPressed: (){
@@ -237,7 +239,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                                 heroTag: 'wieght+',
                                 mini: true,
                                 elevation: 1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.add,
                                 ),
                               ),
@@ -247,7 +249,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   /// age
                   Expanded(
                     child: Container(
@@ -258,22 +260,22 @@ class _BMI_ScreenState extends State<BMIScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'العمــر',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           Text(
                             '$_age',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          SizedBox(height: 8,),
+                          const SizedBox(height: 8,),
                           /// two buttons
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -288,11 +290,11 @@ class _BMI_ScreenState extends State<BMIScreen> {
                                 heroTag: 'age-',
                                 mini: true,
                                 elevation: 1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.remove,
                                 ),
                               ),
-                              SizedBox(width: 8,),
+                              const SizedBox(width: 8,),
                               /// plus
                               FloatingActionButton(
                                 onPressed: (){
@@ -303,7 +305,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                                 heroTag: 'age+',
                                 mini: true,
                                 elevation: 1,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.add,
                                 ),
                               ),
@@ -324,7 +326,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
               color: Colors.pink,
               height: 60,
               onPressed: (){
-                double result = _weight / pow(_hight / 100, 2);
+                double result = _weight / pow(_height / 100, 2);
 
                 Navigator.push(
                     context,
@@ -337,7 +339,7 @@ class _BMI_ScreenState extends State<BMIScreen> {
                     ),
                 );
               },
-              child: Text(
+              child: const Text(
                 'احـــســب',
                 style: TextStyle(
                   color: Colors.white,

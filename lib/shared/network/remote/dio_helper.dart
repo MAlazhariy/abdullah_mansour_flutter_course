@@ -1,28 +1,27 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'package:firstapp/modules/shop_app/cubit/states.dart';
-import 'package:flutter/material.dart';
 
 class DioHelper {
+  static late Dio dio;
 
-  static Dio dio;
-
-  static init(){
+  static init() {
     dio = Dio(
       BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: false,
         headers: {
-          'Content-Type' : 'application/json',
+          'Content-Type': 'application/json',
         },
       ),
     );
-    print('dio object (API) has been created & defined');
+    log('dio object has been created & defined');
   }
 
   static Future<Response> getDate({
-    @required String url,
-    @required Map<String, dynamic> query,
-}) async {
+    required String url,
+    required Map<String, dynamic> query,
+  }) async {
     return await dio.get(
       url,
       queryParameters: query,
@@ -30,13 +29,13 @@ class DioHelper {
   }
 
   static Future<Response> postData({
-    @required String path,
-    Map<String, dynamic> query,
+    required String path,
+    Map<String, dynamic>? query,
     String lang = 'ar',
-    @required Map<String, dynamic> data,
-}) async {
+    required Map<String, dynamic> data,
+  }) async {
     dio.options.headers = <String, dynamic>{
-      'lang' : lang,
+      'lang': lang,
     };
 
     return await dio.post(
@@ -45,6 +44,4 @@ class DioHelper {
       data: data,
     );
   }
-
-
 }

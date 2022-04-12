@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Counter extends StatelessWidget {
+  const Counter({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +23,18 @@ class Counter extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: 15,),
+                    const SizedBox(width: 15,),
                     IconButton(
                       onPressed: (){
                         cubit.numberPlus();
                       },
-                      icon: Icon(Icons.add),
+                      icon: const Icon(Icons.add),
                     ),
                     Expanded(
                       child: Center(
                         child: Text(
                           '${cubit.number}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 50,
                             color: Colors.blue,
                           ),
@@ -43,9 +45,9 @@ class Counter extends StatelessWidget {
                       onPressed: (){
                         cubit.numberMinus();
                       },
-                      icon: Icon(Icons.minimize),
+                      icon: const Icon(Icons.minimize),
                     ),
-                    SizedBox(width: 15,),
+                    const SizedBox(width: 15,),
                   ],
                 ),
               ),

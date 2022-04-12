@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScienceScreen extends StatelessWidget {
-  const ScienceScreen({Key key}) : super(key: key);
+  const ScienceScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ScienceScreen extends StatelessWidget {
         listener: (context, state){},
         builder: (BuildContext context, state){
           return ListView.separated(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index)=>newsItem(
                   article: scienceNewsData['articles'][index],
                   context: context

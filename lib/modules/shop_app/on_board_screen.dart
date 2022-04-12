@@ -1,6 +1,3 @@
-import 'package:conditional_builder/conditional_builder.dart';
-import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -8,39 +5,37 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'login_screen/login_screen.dart';
 
 class OnBoard extends StatefulWidget {
-  const OnBoard({Key key}) : super(key: key);
+  const OnBoard({Key? key}) : super(key: key);
 
   @override
   State<OnBoard> createState() => _OnBoardState();
 }
 
-
 class _OnBoardState extends State<OnBoard> {
-
   double currentIndex = 0;
   bool isLast = false;
-  Key dismissKey;
 
   PageController boardController = PageController();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         children: [
           Expanded(
             child: PageView.builder(
-              onPageChanged: (int index){
+              onPageChanged: (int index) {
                 setState(() {
                   currentIndex = index.toDouble();
-                  if (currentIndex == (boardItems.length)-1) isLast = true;
-                  else isLast = false;
+                  if (currentIndex == (boardItems.length) - 1) {
+                    isLast = true;
+                  } else {
+                    isLast = false;
+                  }
                 });
-
               },
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.only(
                   top: 50,
@@ -48,16 +43,16 @@ class _OnBoardState extends State<OnBoard> {
                   left: 25,
                   bottom: 20,
                 ),
-                child: BoardBuilderItem(
-                    context: context,
-                    item: boardItems[index]
-                ),
+                child:
+                    boardBuilderItem(context: context, item: boardItems[index]),
               ),
               controller: boardController,
               itemCount: boardItems.length,
             ),
           ),
-          SizedBox(height: 15,),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 13,
@@ -74,20 +69,22 @@ class _OnBoardState extends State<OnBoard> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  onPressed: isLast ? null : (){
-                    if (!isLast){
-                      /// Skip
-                      setState(() {
-                        boardController.animateToPage(
-                          boardItems.length -1,
-                          duration: Duration(
-                            milliseconds: 300,
-                          ),
-                          curve: Curves.fastLinearToSlowEaseIn,
-                        );
-                      });
-                    }
-                  },
+                  onPressed: isLast
+                      ? null
+                      : () {
+                          if (!isLast) {
+                            /// Skip
+                            setState(() {
+                              boardController.animateToPage(
+                                boardItems.length - 1,
+                                duration: const Duration(
+                                  milliseconds: 300,
+                                ),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                              );
+                            });
+                          }
+                        },
                 ),
                 Expanded(
                   child: Center(
@@ -100,11 +97,11 @@ class _OnBoardState extends State<OnBoard> {
                         dotWidth: 10,
                         offset: currentIndex,
                       ),
-                      onDotClicked: (int index){
+                      onDotClicked: (int index) {
                         setState(() {
                           boardController.animateToPage(
                             index,
-                            duration: Duration(
+                            duration: const Duration(
                               milliseconds: 300,
                             ),
                             curve: Curves.fastLinearToSlowEaseIn,
@@ -123,8 +120,8 @@ class _OnBoardState extends State<OnBoard> {
                       fontWeight: isLast ? FontWeight.w700 : FontWeight.w400,
                     ),
                   ),
-                  onPressed: (){
-                    if(isLast){
+                  onPressed: () {
+                    if (isLast) {
                       /// Done
                       setState(() {
                         Navigator.pushAndRemoveUntil(
@@ -132,14 +129,14 @@ class _OnBoardState extends State<OnBoard> {
                           MaterialPageRoute(
                             builder: (context) => ShopAppLoginScreen(),
                           ),
-                              (route) => false,
+                          (route) => false,
                         );
                       });
                     } else {
                       /// Next
                       setState(() {
                         boardController.nextPage(
-                          duration: Duration(
+                          duration: const Duration(
                             milliseconds: 700,
                           ),
                           curve: Curves.fastLinearToSlowEaseIn,
@@ -151,7 +148,9 @@ class _OnBoardState extends State<OnBoard> {
               ],
             ),
           ),
-          SizedBox(height: 30,),
+          const SizedBox(
+            height: 30,
+          ),
         ],
       ),
     );
@@ -164,124 +163,118 @@ List<PageViewModel> pageModels = [
     body: 'This is a welcome screen to my application, '
         'which designed by Mostafa Alazhariy.\n'
         'All rights reserved.',
-    image: Image(
+    image: const Image(
       image: NetworkImage(
-        'https://www.sampleposts.com/wp-content/uploads/2020/10/help-quote.jpg'
-      ),
+          'https://www.sampleposts.com/wp-content/uploads/2020/10/help-quote.jpg'),
     ),
-    decoration: PageDecoration(
+    decoration: const PageDecoration(
       titleTextStyle: TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 23,
-      decorationColor: Colors.black,
-      color: Colors.black,
-    ),
+        fontWeight: FontWeight.w600,
+        fontSize: 23,
+        decorationColor: Colors.black,
+        color: Colors.black,
+      ),
       bodyTextStyle: TextStyle(
-      fontWeight: FontWeight.w400,
-      fontSize: 16,
-      decorationColor: Colors.black,
-      color: Colors.black,
-    ),
+        fontWeight: FontWeight.w400,
+        fontSize: 16,
+        decorationColor: Colors.black,
+        color: Colors.black,
+      ),
       pageColor: Colors.deepOrange,
     ),
-
   ),
   PageViewModel(
     title: 'This app will helping you to get what you want when you want',
     body: 'This application is based on roasted fried eggplant',
-    image: Image(
+    image: const Image(
       image: NetworkImage(
         'https://www.sampleposts.com/wp-content/uploads/2020/10/help-quote.jpg',
       ),
     ),
-    decoration: PageDecoration(
+    decoration: const PageDecoration(
       titleTextStyle: TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 23,
-      decorationColor: Colors.black,
-      color: Colors.black,
-    ),
+        fontWeight: FontWeight.w600,
+        fontSize: 23,
+        decorationColor: Colors.black,
+        color: Colors.black,
+      ),
       bodyTextStyle: TextStyle(
-      fontWeight: FontWeight.w400,
-      fontSize: 16,
-      decorationColor: Colors.black,
-      color: Colors.black,
-    ),
+        fontWeight: FontWeight.w400,
+        fontSize: 16,
+        decorationColor: Colors.black,
+        color: Colors.black,
+      ),
       pageColor: Colors.deepOrange,
     ),
-
   ),
   PageViewModel(
     title: 'You are now ready',
     body: 'Let\'s go ..',
-    image: Image(
+    image: const Image(
       image: NetworkImage(
         'https://readymkt.com/wp-content/uploads/2020/11/ready-logo-2.png',
       ),
     ),
-    decoration: PageDecoration(
+    decoration: const PageDecoration(
       titleTextStyle: TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 23,
-      decorationColor: Colors.black,
-      color: Colors.black,
-    ),
+        fontWeight: FontWeight.w600,
+        fontSize: 23,
+        decorationColor: Colors.black,
+        color: Colors.black,
+      ),
       bodyTextStyle: TextStyle(
-      fontWeight: FontWeight.w400,
-      fontSize: 16,
-      decorationColor: Colors.black,
-      color: Colors.black,
-    ),
+        fontWeight: FontWeight.w400,
+        fontSize: 16,
+        decorationColor: Colors.black,
+        color: Colors.black,
+      ),
       pageColor: Colors.deepOrange,
     ),
-
   ),
 ];
 
 List boardItems = [
   {
-    'Screen' : 1,
-    'headline' : 'Welcome to my application',
-    'subtitle' : 'This is a welcome screen to my application, '
+    'Screen': 1,
+    'headline': 'Welcome to my application',
+    'subtitle': 'This is a welcome screen to my application, '
         'which designed by Mostafa Alazhariy.\n'
         'All rights reserved.',
-    'image' : NetworkImage(
-      'https://scontent.fcai19-2.fna.fbcdn.net/v/t1.6435-9/201751130_4018138651606478_5214116909417067342_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=730e14&_nc_ohc=NcC9RgQpR3UAX_zIQkM&_nc_ht=scontent.fcai19-2.fna&oh=0a9268e08dbac863b2b2e8b334c84c52&oe=60EB8577'
-    ),
+    'image': const NetworkImage(
+        'https://scontent.fcai19-2.fna.fbcdn.net/v/t1.6435-9/201751130_4018138651606478_5214116909417067342_n.jpg?_nc_cat=109&ccb=1-3&_nc_sid=730e14&_nc_ohc=NcC9RgQpR3UAX_zIQkM&_nc_ht=scontent.fcai19-2.fna&oh=0a9268e08dbac863b2b2e8b334c84c52&oe=60EB8577'),
   },
   {
-    'Screen' : 2,
-    'headline' : 'This app will helping you to get what you want when you want',
-    'subtitle' : 'This application is based on roasted fried eggplant',
-    'image' : NetworkImage(
+    'Screen': 2,
+    'headline': 'This app will helping you to get what you want when you want',
+    'subtitle': 'This application is based on roasted fried eggplant',
+    'image': const NetworkImage(
       'https://www.sampleposts.com/wp-content/uploads/2020/10/help-quote.jpg',
     ),
   },
   {
-    'Screen' : 3,
-    'headline' : 'You are now ready',
-    'subtitle' : 'Let\'s go ..',
-    'image' : NetworkImage(
+    'Screen': 3,
+    'headline': 'You are now ready',
+    'subtitle': 'Let\'s go ..',
+    'image': const NetworkImage(
       'https://readymkt.com/wp-content/uploads/2020/11/ready-logo-2.png',
     ),
   },
 ];
 
-
-Widget BoardBuilderItem ({
-  @required BuildContext context,
-  @required Map item,
-}){
+Widget boardBuilderItem({
+  required BuildContext context,
+  required Map item,
+}) {
   return Column(
     // crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       ClipRRect(
-        child: Container(
+        child: SizedBox(
           child: Image(
             image: item['image'],
             fit: BoxFit.fitWidth,
-            errorBuilder: (context, object, stackTracer){
-              return Icon(Icons.not_interested);
+            errorBuilder: (context, object, stackTracer) {
+              return const Icon(Icons.not_interested);
             },
           ),
           height: 200,
@@ -289,7 +282,7 @@ Widget BoardBuilderItem ({
         ),
         borderRadius: BorderRadius.circular(30),
       ),
-      SizedBox(
+      const SizedBox(
         height: 40,
       ),
       Text(
@@ -297,7 +290,7 @@ Widget BoardBuilderItem ({
         style: Theme.of(context).textTheme.headline1,
         // textAlign: TextAlign.start,
       ),
-      SizedBox(
+      const SizedBox(
         height: 8,
       ),
       Text(

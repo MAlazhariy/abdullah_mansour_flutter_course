@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:firstapp/modules/counter/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,12 +12,12 @@ class CounterCubit extends Cubit<CounterStates>{
 
 
   void numberPlus(){
-    this.number++;
+    number++;
     emit(CounterPlusState());
   }
 
   void numberMinus(){
-    this.number--;
+    number--;
     emit(CounterMinusState());
   }
 

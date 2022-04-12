@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+import 'dart:developer';
+
 import 'package:firstapp/layout/news_app/cubit/states.dart';
 import 'package:firstapp/modules/news_app/business/business_screen.dart';
 import 'package:firstapp/modules/news_app/science/science_screen.dart';
@@ -15,9 +16,9 @@ class NewsCubit extends Cubit<NewsStates> {
   int currentBottomIndex = 0;
 
   List<Widget> screens = [
-    BusinessScreen(),
-    SportsScreen(),
-    ScienceScreen(),
+    const BusinessScreen(),
+    const SportsScreen(),
+    const ScienceScreen(),
   ];
 
   void changeNavBar(index){
@@ -40,11 +41,11 @@ class NewsCubit extends Cubit<NewsStates> {
       },
     ).then((value) {
       // businessNews = value.data['articles'];
-      print(businessNews);
+      log(businessNews.toString());
       emit(NewsGetBusinessSuccessfulState());
     }).catchError((error){
       emit(NewsGetBusinessErrorState());
-      print('-- Error from getBusinessNews() : ${error.toString()} -- error end');
+      log('-- Error from getBusinessNews() : ${error.toString()} -- error end');
     });
   }
 

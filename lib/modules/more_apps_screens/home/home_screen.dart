@@ -1,23 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
-  double _marginV = 12, _marginH = 40,
+  final double _marginV = 12, _marginH = 40,
       _boxHeight = 180, _padding = 25,
       _fontSize = 35;
+
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
+        leading: const Icon(
           Icons.menu,
         ),
-        title: Text(
+        title: const Text(
           'Mostafa Alazhariy',
         ),
-        actions: [
+        actions: const [
           Icon(
             Icons.notifications,
             color: Colors.white,
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               // image
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
-                    Image(
+                    const Image(
                       image: NetworkImage(
                         'https://scontent.fcai19-2.fna.fbcdn.net/v/t1.6435-9/187137835_3930767890343555_7817363124794517256_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=MxTdZDmoLBYAX_DREq3&_nc_ht=scontent.fcai19-2.fna&oh=f7ba37bab008232b791f6d37be180794&oe=60CA90EB'
                       ),
@@ -64,10 +64,10 @@ class HomeScreen extends StatelessWidget {
                       // alignment: Alignment.center,
                       width: double.infinity,
                       color: Colors.black54,
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 8,
                       ),
-                      child: Text(
+                      child: const Text(
                         'اقفل البرنامج يا كلب!',
                         textDirection: TextDirection.rtl,
                         textAlign: TextAlign.center,

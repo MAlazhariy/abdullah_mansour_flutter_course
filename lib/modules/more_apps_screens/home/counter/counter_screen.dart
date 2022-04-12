@@ -5,6 +5,8 @@ import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
 class CounterScreen extends StatelessWidget {
+  const CounterScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class CounterScreen extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(
+                title: const Text(
                   'Counter',
                 ),
               ),
@@ -38,7 +40,7 @@ class CounterScreen extends StatelessWidget {
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text(
+                          child: const Text(
                             '-',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -76,7 +78,7 @@ class CounterScreen extends StatelessWidget {
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text(
+                          child: const Text(
                             '+',
                             textAlign: TextAlign.center,
                             style: TextStyle(

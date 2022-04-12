@@ -1,21 +1,16 @@
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:firstapp/modules/news_app/news_web_view/news_web_view.dart';
 import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/cubit/cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 Widget defaultButton({
   Color backgroundColor = Colors.blue,
   Color textColor = Colors.white,
   double width = double.infinity,
-  @required Function onPressedFunction,
-  @required String text,
-  double fontsize = 16,
+  required Function()? onPressedFunction,
+  required String text,
+  double fontSize = 16,
   bool isUpperCase = true,
   double border = 0,
 }) =>
@@ -33,34 +28,33 @@ Widget defaultButton({
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w600,
-            fontSize: fontsize,
+            fontSize: fontSize,
           ),
         ),
       ),
     );
 
-
-Widget whiteTextForm ({
+Widget whiteTextForm({
   TextInputAction inputAction = TextInputAction.none,
-  @required TextEditingController controller,
+  required TextEditingController controller,
   TextInputType keyboardType = TextInputType.emailAddress,
-  String hintText,
-  Icon prefixIcon,
-  String helper,
-  Function onChanged,
-  @required Function validator,
+  String hintText = '',
+  Icon? prefixIcon,
+  String helper = '',
+  void Function(String)? onChanged,
+  required String? Function(String?)? validator,
   bool obscureText = false,
-  Function onFieldSubmitted,
-  Widget suffix,
-}){
+  void Function(String)? onFieldSubmitted,
+  Widget? suffix,
+}) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(50),
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: Color(0x3B8B8B8B),
           blurRadius: 15,
-          offset: Offset(0,5),
+          offset: Offset(0, 5),
         ),
       ],
     ),
@@ -75,11 +69,10 @@ Widget whiteTextForm ({
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 28,
           vertical: 18,
         ),
-
         filled: true,
         fillColor: Colors.white,
         suffix: suffix,
@@ -90,13 +83,13 @@ Widget whiteTextForm ({
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.transparent,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.transparent,
           ),
         ),
@@ -118,18 +111,17 @@ Widget whiteTextForm ({
           color: redColor,
         ),
         hintText: hintText,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           fontSize: 19.5,
           fontWeight: FontWeight.w600,
           color: Color(0x7C323F48),
         ),
-        prefixIcon: prefixIcon != null ? Padding(
-          padding: const EdgeInsets.only(
-              left: 20,
-              right: 10
-          ),
-          child: prefixIcon,
-        ) : null,
+        prefixIcon: prefixIcon != null
+            ? Padding(
+                padding: const EdgeInsets.only(left: 20, right: 10),
+                child: prefixIcon,
+              )
+            : null,
         helperText: helper,
         helperStyle: TextStyle(
           color: redColor,
@@ -148,8 +140,8 @@ Widget whiteTextForm ({
 }
 
 Widget buildTaskItem({
-  @required Map model,
-  @required context,
+  required Map model,
+  required context,
 }) =>
     Dismissible(
       key: Key(model['id'].toString()),
@@ -167,12 +159,12 @@ Widget buildTaskItem({
               radius: 40,
               child: Text(
                 '${model['time']}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
@@ -181,17 +173,17 @@ Widget buildTaskItem({
                 children: [
                   Text(
                     '${model['title']}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 1,
                   ),
                   Text(
                     '${model['date']}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 17,
                       color: Colors.grey,
                     ),
@@ -199,7 +191,7 @@ Widget buildTaskItem({
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             IconButton(
@@ -209,7 +201,7 @@ Widget buildTaskItem({
                   status: 'done task',
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.check_box_outlined,
               ),
             ),
@@ -220,7 +212,7 @@ Widget buildTaskItem({
                   status: 'archived task',
                 );
               },
-              icon: Icon(Icons.archive_outlined),
+              icon: const Icon(Icons.archive_outlined),
             ),
           ],
         ),
@@ -228,43 +220,44 @@ Widget buildTaskItem({
     );
 
 Widget taskBodyBuilder({
-  @required List<Map> tasks,
+  required List<Map> tasks,
 }) {
-  return ConditionalBuilder(
-    condition: tasks.length > 0,
-    builder: (context) => ListView.separated(
+
+  if(tasks.isNotEmpty){
+    return ListView.separated(
       itemBuilder: (context, index) => buildTaskItem(
         model: tasks[index],
         context: context,
       ),
       separatorBuilder: (context, index) => separator(),
       itemCount: tasks.length,
-    ),
-    fallback: (context) => Center(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Icon(
-            //   Icons.warning_rounded,
-            //   color: Colors.grey,
-            //   size: 80,
-            // ),
-            Text(
-              'Add a new task to appear here',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 23,
-                fontWeight: FontWeight.w700,
-              ),
+    );
+  }
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          // Icon(
+          //   Icons.warning_rounded,
+          //   color: Colors.grey,
+          //   size: 80,
+          // ),
+          Text(
+            'Add a new task to appear here',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 23,
+              fontWeight: FontWeight.w700,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ),
   );
+
 }
 
 Widget separator() {
@@ -280,19 +273,17 @@ Widget separator() {
   );
 }
 
-Widget newsItem ({
-  @required Map article,
-  @required BuildContext context,
-}){
+Widget newsItem({
+  required Map article,
+  required BuildContext context,
+}) {
   return InkWell(
-    onTap: (){
+    onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context){
-              return WebViewScreen(url: article['url']);
-            }
-        ),
+        MaterialPageRoute(builder: (context) {
+          return WebViewScreen(url: article['url']);
+        }),
       );
     },
     child: Padding(
@@ -308,16 +299,16 @@ Widget newsItem ({
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                  article['urlToImage'] != null
-                      ? article['urlToImage']
-                      : 'http://www.aaru.edu.jo/websites/aaru2/wp-content/plugins/learnpress/assets/images/no-image.png?Mobile=1&Source=%2F%5Flayouts%2Fmobile%2Fdispform%2Easpx%3FList%3D78b536db%252De7c7%252D45d9%252Da661%252Ddb2a2aa2fbaf%26View%3D6efc759a%252D0646%252D433c%252Dab6e%252D2f027ffe0799%26RootFolder%3D%252Fwebsites%252Faaru2%252Fwp%252Dcontent%252Fplugins%252Flearnpress%252Fassets%252Fimages%26ID%3D4786%26CurrentPage%3D1',
+                  article['urlToImage'] ?? 'http://www.aaru.edu.jo/websites/aaru2/wp-content/plugins/learnpress/assets/images/no-image.png?Mobile=1&Source=%2F%5Flayouts%2Fmobile%2Fdispform%2Easpx%3FList%3D78b536db%252De7c7%252D45d9%252Da661%252Ddb2a2aa2fbaf%26View%3D6efc759a%252D0646%252D433c%252Dab6e%252D2f027ffe0799%26RootFolder%3D%252Fwebsites%252Faaru2%252Fwp%252Dcontent%252Fplugins%252Flearnpress%252Fassets%252Fimages%26ID%3D4786%26CurrentPage%3D1',
                 ),
               ),
             ),
           ),
-          SizedBox(width: 8,),
+          const SizedBox(
+            width: 8,
+          ),
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: 120,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,7 +320,7 @@ Widget newsItem ({
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(
@@ -353,8 +344,8 @@ Widget newsItem ({
 }
 
 Widget webView({
-  @required String url,
-}){
+  required String url,
+}) {
   return WebView(
     initialUrl: url,
   );

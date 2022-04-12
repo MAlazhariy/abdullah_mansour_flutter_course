@@ -4,5 +4,5 @@ List<Map> newTasks = [];
 List<Map> doneTasks = [];
 List<Map> archiveTasks = [];
 
-Color greyColor = Color(0x7C323F48);
-Color redColor = Color(0x7CFF0028);
+Color greyColor = const Color(0x7C323F48);
+Color redColor = const Color(0x7CFF0028);

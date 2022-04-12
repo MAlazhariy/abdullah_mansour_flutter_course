@@ -2,40 +2,34 @@
 /// Do not run this App until delete the cubit creating
 /// in the main function.
 
-import 'package:firstapp/modules/todo_app/archived_task/archived_tasks_screen.dart';
-import 'package:firstapp/modules/todo_app/done_tasks/done_tasks_screen.dart';
-import 'package:firstapp/modules/todo_app/new_tasks/new_tasks_screen.dart';
-import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/cubit/cubit.dart';
 import 'package:firstapp/shared/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
 
 class HomeLayout extends StatelessWidget {
-  var scaffoldKey = GlobalKey<ScaffoldState>();
-  var formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
-  TextEditingController titlecontroller = new TextEditingController();
-  TextEditingController timecontroller = new TextEditingController();
-  TextEditingController datecontroller = new TextEditingController();
+  final titleController = TextEditingController();
+  final timeController = TextEditingController();
+  final dateController = TextEditingController();
+
+  HomeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AppCubit()..createDataBase(),
       child: BlocConsumer<AppCubit, AppStates>(
-
         listener: (context, state) {
-          if(state is AppInsertToDatabaseState) {
+          if (state is AppInsertToDatabaseState) {
             Navigator.pop(context);
-            titlecontroller.text =
-                timecontroller.text =
-                datecontroller.text = '' ;
+            titleController.text =
+                timeController.text = dateController.text = '';
           }
         },
-
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
@@ -45,25 +39,23 @@ class HomeLayout extends StatelessWidget {
                 cubit.titles[cubit.currentBottomIndex],
               ),
             ),
-            body: (state is! AppGetDatabaseLoadingState )
-                    ? cubit.bodyTask[cubit.currentBottomIndex]
-                    : Center(child: CircularProgressIndicator()),
+            body: (state is! AppGetDatabaseLoadingState)
+                ? cubit.bodyTask[cubit.currentBottomIndex]
+                : const Center(child: CircularProgressIndicator()),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 // check if bottom is open to insert data to database then close bottom
-                if (cubit.isBottomSheetIsOpen)
-                {
-                  if (formKey.currentState.validate()) {
+                if (cubit.isBottomSheetIsOpen) {
+                  if (formKey.currentState!.validate()) {
                     cubit.insertToDatabase(
-                        title: titlecontroller.text,
-                        time: timecontroller.text,
-                        date: datecontroller.text,
+                      title: titleController.text,
+                      time: timeController.text,
+                      date: dateController.text,
                     );
                   }
-                }
-                else
-                {
-                  scaffoldKey.currentState.showBottomSheet(
+                } else {
+                  scaffoldKey.currentState!
+                      .showBottomSheet(
                         (context) => Form(
                           key: formKey,
                           child: Column(
@@ -78,20 +70,21 @@ class HomeLayout extends StatelessWidget {
                                   bottom: 7.5,
                                 ),
                                 child: TextFormField(
-                                  controller: titlecontroller,
+                                  controller: titleController,
                                   keyboardType: TextInputType.text,
-                                  validator: (String value) {
-                                    if (value.isEmpty || value == '') {
+                                  validator: (String? value) {
+                                    if (value == '') {
                                       return 'Title must not be empty';
-                                    } else
+                                    } else {
                                       return null;
+                                    }
                                   },
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     labelText: 'Task title',
-                                    prefixIcon: Icon(Icons.title),
+                                    prefixIcon: const Icon(Icons.title),
                                   ),
                                 ),
                               ),
@@ -106,29 +99,30 @@ class HomeLayout extends StatelessWidget {
                                 ),
                                 child: TextFormField(
                                   readOnly: true,
-                                  controller: timecontroller,
+                                  controller: timeController,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     labelText: 'Time',
-                                    prefixIcon: Icon(Icons.access_time_rounded),
+                                    prefixIcon: const Icon(Icons.access_time_rounded),
                                   ),
                                   onTap: () {
                                     showTimePicker(
                                       context: context,
                                       initialTime: TimeOfDay.now(),
                                     ).then((value) {
-                                      timecontroller.text =
-                                          value.format(context).toString();
+                                      timeController.text =
+                                          value!.format(context).toString();
                                     });
                                   },
-                                  validator: (String value) {
-                                    if (value.isEmpty || value == '') {
+                                  validator: (value) {
+                                    if (value!.isEmpty || value == '') {
                                       return 'Time must not be empty';
-                                    } else
+                                    } else {
                                       return null;
+                                    }
                                   },
                                 ),
                               ),
@@ -143,14 +137,14 @@ class HomeLayout extends StatelessWidget {
                                 ),
                                 child: TextFormField(
                                   readOnly: true,
-                                  controller: datecontroller,
+                                  controller: dateController,
                                   keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     labelText: 'Date',
-                                    prefixIcon: Icon(Icons.date_range_rounded),
+                                    prefixIcon: const Icon(Icons.date_range_rounded),
                                   ),
                                   onTap: () {
                                     showDatePicker(
@@ -158,18 +152,20 @@ class HomeLayout extends StatelessWidget {
                                             initialDate: DateTime.now(),
                                             firstDate: DateTime.now(),
                                             lastDate: DateTime.now()
-                                                .add(Duration(days: 365)))
+                                                .add(const Duration(days: 365)))
                                         .then((value) {
-                                      datecontroller.text = DateFormat('dd/MM/y')
-                                          .format(value)
-                                          .toString();
+                                      dateController.text =
+                                          DateFormat('dd/MM/yyyy')
+                                              .format(value!)
+                                              .toString();
                                     });
                                   },
-                                  validator: (String value) {
-                                    if (value.isEmpty || value == '') {
+                                  validator: (value) {
+                                    if (value == '') {
                                       return 'Date must not be empty';
-                                    } else
+                                    } else {
                                       return null;
+                                    }
                                   },
                                 ),
                               ),
@@ -177,17 +173,15 @@ class HomeLayout extends StatelessWidget {
                           ),
                         ),
                         elevation: 20,
-                      ).closed
+                      )
+                      .closed
                       .then((value) {
-                      cubit.changeFab(
+                    cubit.changeFab(
                       icon: Icons.add,
                       isOpen: false,
                     );
                   });
-                  cubit.changeFab(
-                      icon: Icons.check_rounded,
-                      isOpen: true
-                  );
+                  cubit.changeFab(icon: Icons.check_rounded, isOpen: true);
                 }
               },
               child: Icon(
@@ -202,7 +196,7 @@ class HomeLayout extends StatelessWidget {
               },
               type: BottomNavigationBarType.fixed,
               currentIndex: cubit.currentBottomIndex,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.playlist_add_check_rounded),
                   label: 'Tasks',

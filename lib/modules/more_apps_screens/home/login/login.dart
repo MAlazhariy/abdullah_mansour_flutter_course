@@ -1,17 +1,19 @@
-import 'package:firstapp/modules/more_apps_screens/home/home_screen.dart';
+import 'dart:developer';
+
 import 'package:firstapp/shared/components/components.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var _emailCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
 
-  var _passwordCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
 
@@ -21,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
             'Mostafa Alazhariy',
           ),
@@ -35,11 +37,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 //Login word title
-                Text(
+                const Text(
                   'Login',
                   style: TextStyle(
                     fontSize: 40,
@@ -47,14 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 //email
                 TextFormField(
                   controller: _emailCtrl,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.email,
                     ),
@@ -68,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Email Address',
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 //password
@@ -77,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: _hidePassword,
                   validator: (value){
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Invalid password';
                     } else {
                       return null;
@@ -85,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.lock,
                     ),
                     suffixIcon: IconButton(
@@ -104,32 +106,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 // login button
                 defaultButton(
                   onPressedFunction: (){
-                    if (formKey.currentState.validate()) {
-                      print(_passwordCtrl.text);
+                    if (formKey.currentState!.validate()) {
+                      log(_passwordCtrl.text);
                     }
                   },
                   text: 'login',
                   backgroundColor: Colors.pink,
                   isUpperCase: false,
                   border: 12,
-                  fontsize: 20,
+                  fontSize: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Don\'t have an account?',
                     ),
                     // register now
                     TextButton(
                       onPressed: (){},
-                      child: Text(
+                      child: const Text(
                         'Regiser now',
                       ),
                     ),

@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MessengerScreen extends StatelessWidget {
+  const MessengerScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class MessengerScreen extends StatelessWidget {
        backgroundColor: Colors.white,
        elevation: 0,
        title: Row(
-         children: [
+         children: const [
            CircleAvatar(
              backgroundColor: Colors.white,
              backgroundImage: NetworkImage(
@@ -39,35 +40,31 @@ class MessengerScreen extends StatelessWidget {
            backgroundColor: Colors.grey[300],
            child: IconButton(
              alignment: Alignment.center,
-             padding: EdgeInsets.all(0),
-             icon: Icon(
+             padding: const EdgeInsets.all(0),
+             icon: const Icon(
                Icons.camera_alt,
                color: Colors.black87,
                 size: 17,
              ),
-             onPressed: (){
-               print('pressed camera');
-             },
+             onPressed: (){},
            ),
          ),
-         SizedBox(
+         const SizedBox(
            width: 15,
          ),
          CircleAvatar(
            backgroundColor: Colors.grey[300],
            radius: 15,
            child: IconButton(
-             padding: EdgeInsets.all(0),
-               icon: Icon(
+             padding: const EdgeInsets.all(0),
+               icon: const Icon(
                  Icons.edit,
                  color: Colors.black87,
                  size: 16,
                ),
-               onPressed: (){
-                 print('Edit pressed');
-               },),
+               onPressed: (){},),
          ),
-         SizedBox(
+         const SizedBox(
            width: 15,
          ),
        ],
@@ -80,7 +77,7 @@ class MessengerScreen extends StatelessWidget {
          child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
            children: [
-             SizedBox(
+             const SizedBox(
                height: 8,
              ),
 
@@ -90,12 +87,12 @@ class MessengerScreen extends StatelessWidget {
                  color: Colors.grey[300],
                  borderRadius: BorderRadius.circular(18),
                ),
-               padding: EdgeInsets.symmetric(
+               padding: const EdgeInsets.symmetric(
                  vertical: 13,
                  horizontal: 20,
                ),
                child: Row(
-                   children: [
+                   children: const [
                      Icon(
                        Icons.search,
                        size: 23,
@@ -114,32 +111,32 @@ class MessengerScreen extends StatelessWidget {
                    ],
                  ),
              ),
-             SizedBox(
+             const SizedBox(
                height: 20,
              ),
 
              /// stories
-             Container(
+             SizedBox(
                height: 115,
                child: ListView.separated(
                  shrinkWrap: true,
                  scrollDirection: Axis.horizontal,
 
                    itemBuilder: (context, index) => storyItem(),
-                   separatorBuilder: (context, index)=> SizedBox(
+                   separatorBuilder: (context, index)=> const SizedBox(
                      width: 10,
                    ),
                    itemCount: 15,
                ),
              ),
-             SizedBox(height: 18),
+             const SizedBox(height: 18),
 
              /// chats
              ListView.separated(
-               physics: NeverScrollableScrollPhysics(),
+               physics: const NeverScrollableScrollPhysics(),
                shrinkWrap: true,
                scrollDirection: Axis.vertical,
-               separatorBuilder: (cont, index)=> SizedBox(height: 10,),
+               separatorBuilder: (cont, index)=> const SizedBox(height: 10,),
                itemBuilder: (cont, index) => chatItem(),
                itemCount: 20,
              ),
@@ -154,7 +151,7 @@ class MessengerScreen extends StatelessWidget {
     children: [
       Stack(
         alignment: Alignment.bottomRight,
-        children: [
+        children: const [
           CircleAvatar(
             radius: 30,
             backgroundColor: Colors.white,
@@ -168,10 +165,10 @@ class MessengerScreen extends StatelessWidget {
           ),
         ],
       ),
-      SizedBox(
+      const SizedBox(
         height: 7,
       ),
-      Container(
+      const SizedBox(
         width: 80,
         child: Text(
           'Taha Ahmed El-Abd',
@@ -190,14 +187,14 @@ class MessengerScreen extends StatelessWidget {
   Widget chatItem() => Row(
     children: [
       //profile pic
-      CircleAvatar(
+      const CircleAvatar(
         backgroundColor: Colors.white,
         radius: 30,
         backgroundImage: NetworkImage(
             "https://scontent.fcai19-2.fna.fbcdn.net/v/t1.6435-9/138811861_3602814706472210_3844811973319459704_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=174925&_nc_ohc=p8frQE7CjjAAX8tCP8u&_nc_ht=scontent.fcai19-2.fna&oh=1f53afcb3571e9f4dd2f73cdb42e48d4&oe=60D18496"
         ),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
       Expanded(
@@ -205,26 +202,24 @@ class MessengerScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // name title
-            Container(
-              child: Text(
-                'Mostafa Alazhariy',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
-                ),
+            const Text(
+              'Mostafa Alazhariy',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w700,
+                fontSize: 19,
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 3,
             ),
             // message
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: const [
                 Expanded(
                   child: Text(
                     'Hey, bro how are you? I\'m waiting you on my Bathengan mekhalel, but sometimes no.',
@@ -239,7 +234,7 @@ class MessengerScreen extends StatelessWidget {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 4.5,
                   ),
                   child: CircleAvatar(
@@ -248,14 +243,12 @@ class MessengerScreen extends StatelessWidget {
                   ),
                 ),
 
-                Container(
-                  child: Text(
-                    '10:23 AM',
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11,
-                    ),
+                Text(
+                  '10:23 AM',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11,
                   ),
                 ),
               ],

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class UsersScreen extends StatelessWidget {
 
-  List<UserModel> users = [
+  final List<UserModel> users = [
     UserModel(
       id: 1,
       name: 'Mostafa Alazhriy',
@@ -43,11 +43,13 @@ class UsersScreen extends StatelessWidget {
     ),
   ];
 
+  UsersScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Users',
         ),
       ),
@@ -81,29 +83,29 @@ class UsersScreen extends StatelessWidget {
           backgroundColor: Colors.lightBlue,
           child: Text(
             '${user.id}',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: Colors.white,
             ),
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '${user.name}',
-              style: TextStyle(
+              user.name,
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: Colors.black54,
               ),
             ),
             Text(
-              '${user.phone}',
-              style: TextStyle(
+              user.phone,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w300,
                 color: Colors.grey,

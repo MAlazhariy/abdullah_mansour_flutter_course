@@ -1,4 +1,3 @@
-import 'package:firstapp/models/shop_app/shop_app_models.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // ignore: unused_import
 import 'package:shared_preferences/shared_preferences.dart';

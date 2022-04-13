@@ -1,16 +1,9 @@
-import 'package:firstapp/models/shop_app/shop_app_models.dart';
+abstract class ShopStates {}
 
-abstract class ShopAppStates {}
+class ShopInitState extends ShopStates{}
 
-class ShopAppInitState extends ShopAppStates{}
-class ShopAppChangePasswordVisibility extends ShopAppStates{}
-class ShopAppChangeCounter extends ShopAppStates{}
-class ShopAppChangeColor extends ShopAppStates{}
-class ShopAppChangeKeyboardType extends ShopAppStates{}
+class ShopChangeBottomNavState extends ShopStates{}
 
-class ShopAppLoginLoading extends ShopAppStates{}
-class ShopAppLoginError extends ShopAppStates{}
-class ShopAppLoginSuccessful extends ShopAppStates {
-  final ShopLoginModel loginInfo;
-  ShopAppLoginSuccessful(this.loginInfo);
-}
+class ShopLoadingHomeDataState extends ShopStates{}
+class ShopSuccessHomeDataState extends ShopStates{}
+class ShopErrorHomeDataState extends ShopStates{}

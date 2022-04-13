@@ -1,5 +1,5 @@
 /// WARNING !
-/// Do not run this App until delete the cubit creating
+/// Do not run this App until delete the login_cubit creating
 /// in the main function.
 
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';

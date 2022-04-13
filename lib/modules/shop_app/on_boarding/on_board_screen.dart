@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'login_screen.dart';
+import '../login/login_screen.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({Key? key}) : super(key: key);

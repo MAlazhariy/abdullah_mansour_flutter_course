@@ -1,81 +1,52 @@
 import 'dart:developer';
 
-import 'package:firstapp/models/shop_app/shop_app_models.dart';
+import 'package:firstapp/models/shop_app/home_model.dart';
+import 'package:firstapp/modules/shop_app/categories/categories_screen.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
+import 'package:firstapp/modules/shop_app/favorites/favorites_screen.dart';
+import 'package:firstapp/modules/shop_app/products/product_screen.dart';
+import 'package:firstapp/modules/shop_app/settings/settings_screen.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShopAppCubit extends Cubit<ShopAppStates> {
-  ShopAppCubit() : super(ShopAppInitState());
+class ShopCubit extends Cubit<ShopStates> {
+  ShopCubit() : super(ShopInitState());
 
-  static ShopAppCubit get(context) {
+  static ShopCubit get(context) {
     return BlocProvider.of(context);
   }
 
-  bool showPassword = false;
-  String passwordShowHide = 'Show';
-  bool changePassColor = false;
-  bool changeEmailColor = false;
-  TextInputType emailKeyboard = TextInputType.emailAddress;
+  int currentIndex = 0;
 
-  String emailCounter = '';
+  List<Widget> bottomScreens = [
+    ProductsScreen(),
+    CategoriesScreen(),
+    FavoritesScreen(),
+    SettingsScreen(),
+  ];
 
-  void changeShowPassword() {
-    showPassword = !showPassword;
-    passwordShowHide = showPassword ? 'Hide' : 'Show';
-    emit(ShopAppChangePasswordVisibility());
+  void changeBottom(int index) {
+    currentIndex = index;
+
+    emit(ShopChangeBottomNavState());
   }
 
-  void changeKeyboard({
-    bool isUrl = false,
-  }) {
-    emailKeyboard = isUrl ? TextInputType.url : TextInputType.emailAddress;
-    emit(ShopAppChangeKeyboardType());
-  }
+  void getHomeData() {
+    emit(ShopLoadingHomeDataState());
 
-  void changeCounter({
-    required bool isEmail,
-    required String title,
-  }) {
-    isEmail ? emailCounter = title : null;
-    emit(ShopAppChangeCounter());
-  }
+    HomeModel? homeModel;
 
-  void hidePassword() {
-    showPassword = false;
-    passwordShowHide = 'Show';
-    emit(ShopAppChangePasswordVisibility());
-  }
+    DioHelper.getDate(url: HOME).then((value) {
+      homeModel = HomeModel.fromJson(value.data);
+      log(homeModel.toString());
 
-  void changeColor({
-    required bool changeColor,
-    required bool isEmail,
-  }) {
-    isEmail ? changeEmailColor = changeColor : changePassColor = changeColor;
-    emit(ShopAppChangeColor());
-  }
+      emit(ShopSuccessHomeDataState());
 
-  void signIn({
-    required String email,
-    required String password,
-    String lang = 'ar',
-  }) {
-    emit(ShopAppLoginLoading());
-
-    DioHelper.postData(
-      path: LOGIN,
-      data: {
-        'email': email,
-        'password': password,
-      },
-      lang: lang,
-    ).then((value) {
-      emit(ShopAppLoginSuccessful(ShopLoginModel(loginData: value.data)));
     }).catchError((error) {
-      log('--Error during SignIn: ${error.toString()}');
-      emit(ShopAppLoginError());
+      log(error.toString());
+      emit(ShopErrorHomeDataState());
     });
   }
 }

@@ -1,7 +1,7 @@
 import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/modules/shop_app/create_account.dart';
-import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
-import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
+import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
+import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
 import 'package:firstapp/shared/components/components.dart';
 import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bot_toast/bot_toast.dart';
 
 class ShopAppLoginScreen extends StatelessWidget {
   ShopAppLoginScreen({Key? key}) : super(key: key);
@@ -27,10 +26,10 @@ class ShopAppLoginScreen extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (context) => ShopAppCubit(),
-      child: BlocConsumer<ShopAppCubit, ShopAppStates>(
+      create: (context) => ShopLoginCubit(),
+      child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
         listener: (context, state) {
-          if (state is ShopAppLoginSuccessful) {
+          if (state is ShopLoginSuccessful) {
             if (state.loginInfo.status == true) {
               snkBar(
                 context: context,
@@ -73,7 +72,7 @@ class ShopAppLoginScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          ShopAppCubit cubit = ShopAppCubit.get(context);
+          ShopLoginCubit cubit = ShopLoginCubit.get(context);
           return Scaffold(
             backgroundColor: const Color(0xFFFFFFFF),
             // backgroundColor: Colors.red,
@@ -200,7 +199,6 @@ class ShopAppLoginScreen extends StatelessWidget {
                                       cubit.signIn(
                                         email: emailController.text,
                                         password: passwordController.text,
-                                        lang: 'ar',
                                       );
                                     }
                                   },
@@ -277,11 +275,11 @@ class ShopAppLoginScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        (state is! ShopAppLoginLoading)
+                                        (state is! ShopLoginLoading)
                                             ? const Color(0XFFFF4AA3)
                                             : const Color(0XFFFF4AA3)
                                                 .withAlpha(90),
-                                        (state is! ShopAppLoginLoading)
+                                        (state is! ShopLoginLoading)
                                             ? const Color(0XFFF8B556)
                                             : const Color(0XFFF8B556)
                                                 .withAlpha(90),
@@ -296,7 +294,7 @@ class ShopAppLoginScreen extends StatelessWidget {
                                       vertical: 15,
                                       horizontal: 50,
                                     ),
-                                    child: (state is! ShopAppLoginLoading)
+                                    child: (state is! ShopLoginLoading)
                                         ? Text(
                                             'SIGN IN',
                                             style: Theme.of(context)

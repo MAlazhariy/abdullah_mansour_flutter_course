@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firstapp/layout/shop_layout.dart';
-import 'package:firstapp/modules/shop_app/login_screen.dart';
+import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
+import 'package:firstapp/modules/shop_app/login/login_screen.dart';
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:firstapp/shared/app_cubit/app_states.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
@@ -15,8 +16,9 @@ import 'package:bot_toast/bot_toast.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Bloc.observer = MyBlocObserver();
+  // API init
   DioHelper.init();
+  // local DB init & open
   await Hive.initFlutter();
   await Hive.openBox('shop_app');
 
@@ -36,13 +38,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AppCubit>(
+        // to-do app cubit
+        BlocProvider(
           create: (context) => AppCubit(),
+        ),
+
+        // shop app cubit
+        BlocProvider(
+          create: (context) => ShopCubit()..getHomeData(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         builder: (context, state) {
-          // AppCubit cubit = AppCubit.get(context);
+          // AppCubit login_cubit = AppCubit.get(context);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: lightTheme,

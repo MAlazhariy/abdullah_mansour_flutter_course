@@ -1,6 +1,6 @@
 import 'package:firstapp/modules/news_app/news_web_view.dart';
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';
-import 'package:firstapp/shared/components/constants.dart';
+import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -61,10 +61,10 @@ Widget whiteTextForm({
     child: TextFormField(
       textInputAction: inputAction,
       obscureText: obscureText,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 19.5,
         fontWeight: FontWeight.w600,
-        color: redColor,
+        color: kRedColor,
       ),
       controller: controller,
       keyboardType: keyboardType,
@@ -76,10 +76,10 @@ Widget whiteTextForm({
         filled: true,
         fillColor: Colors.white,
         suffix: suffix,
-        suffixStyle: TextStyle(
+        suffixStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: redColor,
+          color: kRedColor,
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
@@ -95,20 +95,20 @@ Widget whiteTextForm({
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-            color: redColor,
+          borderSide: const BorderSide(
+            color: kRedColor,
             width: 2.2,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
-          borderSide: BorderSide(
-            color: redColor,
+          borderSide: const BorderSide(
+            color: kRedColor,
             width: 2.2,
           ),
         ),
-        errorStyle: TextStyle(
-          color: redColor,
+        errorStyle: const TextStyle(
+          color: kRedColor,
         ),
         hintText: hintText,
         hintStyle: const TextStyle(
@@ -123,8 +123,8 @@ Widget whiteTextForm({
               )
             : null,
         helperText: helper,
-        helperStyle: TextStyle(
-          color: redColor,
+        helperStyle: const TextStyle(
+          color: kRedColor,
           fontWeight: FontWeight.w500,
         ),
         border: OutlineInputBorder(

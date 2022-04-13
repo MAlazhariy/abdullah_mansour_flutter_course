@@ -3,8 +3,8 @@ import 'package:firstapp/modules/shop_app/create_account.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
 import 'package:firstapp/shared/components/components.dart';
-import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
+import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -134,8 +134,8 @@ class ShopAppLoginScreen extends StatelessWidget {
                               prefixIcon: Icon(
                                 Icons.email_outlined,
                                 color: cubit.changeEmailColor
-                                    ? redColor
-                                    : greyColor,
+                                    ? kRedColor
+                                    : kGreyColor,
                                 size: 22.5,
                               ),
                               onChanged: (value) {
@@ -163,8 +163,8 @@ class ShopAppLoginScreen extends StatelessWidget {
                                         ? Icons.lock_open_outlined
                                         : Icons.lock_outline,
                                     color: cubit.changePassColor
-                                        ? redColor
-                                        : greyColor,
+                                        ? kRedColor
+                                        : kGreyColor,
                                     size: 22.5,
                                   ),
                                   hintText: 'Password',
@@ -214,9 +214,9 @@ class ShopAppLoginScreen extends StatelessWidget {
                                   onPressed: () {
                                     cubit.changeShowPassword();
                                   },
-                                  color: redColor.withAlpha(19),
-                                  highlightColor: redColor.withAlpha(5),
-                                  splashColor: redColor.withAlpha(25),
+                                  color: kRedColor.withAlpha(19),
+                                  highlightColor: kRedColor.withAlpha(5),
+                                  splashColor: kRedColor.withAlpha(25),
                                   padding: const EdgeInsets.all(0),
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
@@ -240,8 +240,8 @@ class ShopAppLoginScreen extends StatelessWidget {
                                     ),
                                     child: Text(
                                       cubit.passwordShowHide,
-                                      style: TextStyle(
-                                        color: redColor,
+                                      style: const TextStyle(
+                                        color: kRedColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17,
                                       ),
@@ -270,7 +270,7 @@ class ShopAppLoginScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(0),
                                 shape: const StadiumBorder(),
                                 highlightElevation: 5,
-                                highlightColor: redColor.withAlpha(50),
+                                highlightColor: kRedColor.withAlpha(50),
                                 child: Ink(
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -327,10 +327,10 @@ class ShopAppLoginScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Don\'t have an account?',
                                 style: TextStyle(
-                                  color: greyColor,
+                                  color: kGreyColor,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -346,11 +346,11 @@ class ShopAppLoginScreen extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Create',
                                   style: TextStyle(
                                     // color: Colors.grey[600],
-                                    color: redColor,
+                                    color: kRedColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                   ),

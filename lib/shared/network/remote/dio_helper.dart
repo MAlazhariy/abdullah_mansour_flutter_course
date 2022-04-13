@@ -22,7 +22,7 @@ class DioHelper {
   static Future<Response> getDate({
     required String url,
     Map<String, dynamic>? query,
-    String lang = 'ar',
+    String lang = 'en',
   }) async {
     dio.options.headers = {
       'lang': lang,
@@ -40,7 +40,7 @@ class DioHelper {
     required String path,
     required Map<String, dynamic> data,
     Map<String, dynamic>? query,
-    String lang = 'ar',
+    String lang = 'en',
   }) async {
     dio.options.headers = <String, dynamic>{
       'lang': lang,

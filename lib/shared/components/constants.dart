@@ -6,8 +6,6 @@ List<Map> newTasks = [];
 List<Map> doneTasks = [];
 List<Map> archiveTasks = [];
 
-Color greyColor = const Color(0x7C323F48);
-Color redColor = const Color(0x7CFF0028);
 
 /// shop app
 void signOut(BuildContext context){

@@ -13,26 +13,19 @@ class HomeDataModel {
   late final List<ProductModel> products = [];
 
   HomeDataModel.fromJson(Map<String, dynamic> data) {
+
     data['banners'].forEach((element) {
-      banners.add(element);
+      banners.add(
+        BannerModel.fromJson(element),
+      );
     });
 
     data['products'].forEach((element) {
-      products.add(element);
+      products.add(
+        ProductModel.fromJson(element),
+      );
     });
 
-    // my own touch :)
-    // data['banners'].forEach((element) {
-    //   banners.add(
-    //     BannerModel.fromJson(element),
-    //   );
-    // });
-    //
-    // data['products'].forEach((element) {
-    //   products.add(
-    //     ProductModel.fromJson(element),
-    //   );
-    // });
   }
 }
 
@@ -55,8 +48,9 @@ class ProductModel {
 
   late final String image;
   late final String name;
-  late final String inFavorites;
-  late final String inCart;
+
+  late final bool inFavorites;
+  late final bool inCart;
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

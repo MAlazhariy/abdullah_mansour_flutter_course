@@ -1,8 +1,6 @@
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
-import 'package:firstapp/modules/shop_app/login/login_screen.dart';
 import 'package:firstapp/modules/shop_app/search/search_screen.dart';
-import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

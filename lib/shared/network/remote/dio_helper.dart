@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:firstapp/shared/network/local/cache_helper.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -10,9 +11,9 @@ class DioHelper {
       BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: false,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
       ),
     );
     log('dio object has been created');
@@ -22,11 +23,11 @@ class DioHelper {
     required String url,
     Map<String, dynamic>? query,
     String lang = 'ar',
-    String? token,
   }) async {
     dio.options.headers = {
       'lang': lang,
-      'Authorization': token,
+      'Content-Type': 'application/json',
+      'Authorization': CacheHelper.getToken(),
     };
 
     return await dio.get(
@@ -38,12 +39,13 @@ class DioHelper {
   static Future<Response> postData({
     required String path,
     required Map<String, dynamic> data,
-    String? token,
     Map<String, dynamic>? query,
     String lang = 'ar',
   }) async {
     dio.options.headers = <String, dynamic>{
       'lang': lang,
+      'Content-Type': 'application/json',
+      'Authorization': CacheHelper.getToken(),
     };
 
     return await dio.post(

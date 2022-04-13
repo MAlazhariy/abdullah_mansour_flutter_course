@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String token = CacheHelper.getToken();
+    // log('token: $token');
+
     return MultiBlocProvider(
       providers: [
         // to-do app cubit
@@ -61,7 +65,7 @@ class MyApp extends StatelessWidget {
               return child;
             },
             navigatorObservers: [BotToastNavigatorObserver()],
-            home: CacheHelper.getToken().isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
+            home: token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
           );
         },
         listener: (context, state) {},

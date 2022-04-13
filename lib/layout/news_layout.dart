@@ -1,6 +1,5 @@
 import 'package:firstapp/modules/news_app/cubit/news_cubit.dart';
 import 'package:firstapp/modules/news_app/cubit/news_states.dart';
-import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +30,7 @@ class NewsHomeScreen extends StatelessWidget {
                 const SizedBox(width: 10,),
                 IconButton(
                   onPressed: (){
-                    AppCubit.get(context).changeTheme();
+                    // AppCubit.get(context).changeTheme();
                   },
                   icon: const Icon(
                     Icons.brightness_4_rounded,

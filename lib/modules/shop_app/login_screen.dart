@@ -1,8 +1,10 @@
+import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/modules/shop_app/create_account.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
 import 'package:firstapp/shared/components/components.dart';
 import 'package:firstapp/shared/components/constants.dart';
+import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,6 @@ class ShopAppLoginScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -29,39 +30,48 @@ class ShopAppLoginScreen extends StatelessWidget {
       create: (context) => ShopAppCubit(),
       child: BlocConsumer<ShopAppCubit, ShopAppStates>(
         listener: (context, state) {
-
           if (state is ShopAppLoginSuccessful) {
-
             if (state.loginInfo.status == true) {
-              BotToast.showText(
-                text: state.loginInfo.message,
-                duration: const Duration(seconds: 6),
-                contentColor: Colors.greenAccent,
-                textStyle: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                borderRadius: BorderRadius.circular(50),
+              snkBar(
+                context: context,
+                title: state.loginInfo.message,
+                seconds: 3,
+                snackColor: Colors.green,
+                // titleColor: Colors.white,
+              );
+
+              CacheHelper.setToken(state.loginInfo.data!.token);
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return const ShopLayout();
+                }),
+                (route) => false,
               );
             } else {
-              BotToast.showText(
-                text: state.loginInfo.message,
-                duration: const Duration(seconds: 6),
-                contentColor: Colors.redAccent,
-                textStyle: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                borderRadius: BorderRadius.circular(50),
+              // BotToast.showText(
+              //   text: state.loginInfo.message,
+              //   duration: const Duration(seconds: 6),
+              //   contentColor: Colors.redAccent,
+              //   textStyle: const TextStyle(
+              //     fontSize: 15,
+              //     color: Colors.white,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              //   borderRadius: BorderRadius.circular(50),
+              // );
+
+              snkBar(
+                context: context,
+                title: state.loginInfo.message,
+                seconds: 5,
+                snackColor: Colors.red,
+                titleColor: Colors.white,
               );
             }
-
           }
-
         },
-
         builder: (context, state) {
           ShopAppCubit cubit = ShopAppCubit.get(context);
           return Scaffold(
@@ -92,38 +102,32 @@ class ShopAppLoginScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Hello',
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .headline1!
-                                .copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 85,
-                              color: const Color(0xE639444C),
-                              // letterSpacing: 1.2,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.headline1!.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 85,
+                                      color: const Color(0xE639444C),
+                                      // letterSpacing: 1.2,
+                                    ),
                           ),
                           // SizedBox(height: 5,),
                           Text(
                             'Sign in to your account',
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .headline2!
-                                .copyWith(
-                              color: const Color(0x7C323F48),
-                              fontSize: 19.5,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.headline2!.copyWith(
+                                      color: const Color(0x7C323F48),
+                                      fontSize: 19.5,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
-                          const SizedBox(height: 45,),
+                          const SizedBox(
+                            height: 45,
+                          ),
                           Container(
                             child: whiteTextForm(
                               controller: emailController,
                               validator: (value) {
-                                return value!.isEmpty
-                                    ? 'Required'
-                                    : null;
+                                return value!.isEmpty ? 'Required' : null;
                               },
                               keyboardType: TextInputType.emailAddress,
                               inputAction: TextInputAction.next,
@@ -146,7 +150,9 @@ class ShopAppLoginScreen extends StatelessWidget {
                               },
                             ),
                           ),
-                          const SizedBox(height: 25,),
+                          const SizedBox(
+                            height: 25,
+                          ),
                           Stack(
                             alignment: Alignment.topRight,
                             children: [
@@ -176,8 +182,8 @@ class ShopAppLoginScreen extends StatelessWidget {
                                     return (value!.isEmpty)
                                         ? 'Required'
                                         : (value.length <= 3)
-                                        ? 'Password is too short'
-                                        : null;
+                                            ? 'Password is too short'
+                                            : null;
                                   },
                                   onChanged: (value) {
                                     if (passwordController.text.isEmpty) {
@@ -247,7 +253,9 @@ class ShopAppLoginScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 40,),
+                          const SizedBox(
+                            height: 40,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -271,12 +279,12 @@ class ShopAppLoginScreen extends StatelessWidget {
                                       colors: [
                                         (state is! ShopAppLoginLoading)
                                             ? const Color(0XFFFF4AA3)
-                                            : const Color(0XFFFF4AA3).withAlpha(
-                                            90),
+                                            : const Color(0XFFFF4AA3)
+                                                .withAlpha(90),
                                         (state is! ShopAppLoginLoading)
                                             ? const Color(0XFFF8B556)
-                                            : const Color(0XFFF8B556).withAlpha(
-                                            90),
+                                            : const Color(0XFFF8B556)
+                                                .withAlpha(90),
                                       ],
                                       begin: Alignment.centerRight,
                                       end: Alignment.centerLeft,
@@ -290,29 +298,28 @@ class ShopAppLoginScreen extends StatelessWidget {
                                     ),
                                     child: (state is! ShopAppLoginLoading)
                                         ? Text(
-                                      'SIGN IN',
-                                      style: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .headline2!
-                                          .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 19.5,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    )
+                                            'SIGN IN',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline2!
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 19.5,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                          )
                                         : const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 22.4),
-                                      child: SizedBox(
-                                        height: 23,
-                                        width: 23,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          strokeWidth: 3.5,
-                                        ),
-                                      ),
-                                    ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 22.4),
+                                            child: SizedBox(
+                                              height: 23,
+                                              width: 23,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                                strokeWidth: 3.5,
+                                              ),
+                                            ),
+                                          ),
                                   ),
                                 ),
                               ),
@@ -336,8 +343,8 @@ class ShopAppLoginScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (
-                                          context) => const CreateAccount(),
+                                      builder: (context) =>
+                                          const CreateAccount(),
                                     ),
                                   );
                                 },

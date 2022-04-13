@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/modules/shop_app/login_screen.dart';
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:firstapp/shared/app_cubit/app_states.dart';
@@ -7,6 +8,7 @@ import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:firstapp/shared/styles/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:bot_toast/bot_toast.dart';
 
@@ -15,9 +17,10 @@ void main() async {
 
   // Bloc.observer = MyBlocObserver();
   DioHelper.init();
-  await CacheHelper.init();
+  await Hive.initFlutter();
+  await Hive.openBox('shop_app');
 
-  AppCubit.isDark = CacheHelper.getBool(key: 'isDark') ?? false;
+  // AppCubit.isDark = CacheHelper.getBool(key: 'isDark') ?? false;
 
   if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
@@ -50,10 +53,7 @@ class MyApp extends StatelessWidget {
               return child;
             },
             navigatorObservers: [BotToastNavigatorObserver()],
-            home: Directionality(
-              textDirection: TextDirection.ltr,
-              child: ShopAppLoginScreen(),
-            ),
+            home: CacheHelper.getToken().isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
           );
         },
         listener: (context, state) {},

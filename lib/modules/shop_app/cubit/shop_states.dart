@@ -10,8 +10,7 @@ class ShopAppChangeKeyboardType extends ShopAppStates{}
 
 class ShopAppLoginLoading extends ShopAppStates{}
 class ShopAppLoginError extends ShopAppStates{}
-class ShopAppLoginSuccessful extends ShopAppStates
-{
+class ShopAppLoginSuccessful extends ShopAppStates {
   final ShopLoginModel loginInfo;
   ShopAppLoginSuccessful(this.loginInfo);
 }

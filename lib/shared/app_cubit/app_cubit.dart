@@ -6,7 +6,6 @@ import 'package:firstapp/modules/todo_app/done_tasks/done_tasks_screen.dart';
 import 'package:firstapp/modules/todo_app/new_tasks/new_tasks_screen.dart';
 import 'package:firstapp/shared/app_cubit/app_states.dart';
 import 'package:firstapp/shared/components/constants.dart';
-import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,12 +26,12 @@ class AppCubit extends Cubit<AppStates> {
 
   late Database database;
 
-  void changeTheme() {
-    isDark = !isDark;
-    CacheHelper.setBoolean(key: 'isDark', value: isDark).then((value) {
-      emit(AppChangeThemeModeState());
-    });
-  }
+  // void changeTheme() {
+  //   isDark = !isDark;
+  //   CacheHelper.setBoolean(key: 'isDark', value: isDark).then((value) {
+  //     emit(AppChangeThemeModeState());
+  //   });
+  // }
 
   List<Widget> bodyTask = [
     const NewTasksScreen(),

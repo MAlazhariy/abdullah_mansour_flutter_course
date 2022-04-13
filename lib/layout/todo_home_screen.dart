@@ -2,8 +2,8 @@
 /// Do not run this App until delete the cubit creating
 /// in the main function.
 
-import 'package:firstapp/shared/cubit/cubit.dart';
-import 'package:firstapp/shared/cubit/states.dart';
+import 'package:firstapp/shared/app_cubit/app_cubit.dart';
+import 'package:firstapp/shared/app_cubit/app_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

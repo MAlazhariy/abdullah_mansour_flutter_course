@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:firstapp/layout/news_app/cubit/states.dart';
-import 'package:firstapp/modules/news_app/business/business_screen.dart';
-import 'package:firstapp/modules/news_app/science/science_screen.dart';
-import 'package:firstapp/modules/news_app/sports/sports_screen.dart';
+import 'package:firstapp/modules/news_app/business_screen.dart';
+import 'package:firstapp/modules/news_app/cubit/news_states.dart';
+import 'package:firstapp/modules/news_app/science_screen.dart';
+import 'package:firstapp/modules/news_app/sports_screen.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,6 +1,6 @@
-import 'package:firstapp/modules/news_app/news_web_view/news_web_view.dart';
+import 'package:firstapp/modules/news_app/news_web_view.dart';
+import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:firstapp/shared/components/constants.dart';
-import 'package:firstapp/shared/cubit/cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

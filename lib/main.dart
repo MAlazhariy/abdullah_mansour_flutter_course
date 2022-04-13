@@ -1,8 +1,7 @@
-
 import 'dart:io';
-import 'package:firstapp/modules/test/test.dart';
-import 'package:firstapp/shared/cubit/cubit.dart';
-import 'package:firstapp/shared/cubit/states.dart';
+import 'package:firstapp/modules/shop_app/login_screen.dart';
+import 'package:firstapp/shared/app_cubit/app_cubit.dart';
+import 'package:firstapp/shared/app_cubit/app_states.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:firstapp/shared/osserver.dart';
@@ -26,9 +25,7 @@ void main() async {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-
   final botToastBuilder = BotToastInit();
 
   MyApp({Key? key}) : super(key: key);
@@ -36,39 +33,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider<AppCubit>(
-              create: (context) => AppCubit(),
-          ),
-        ],
-        child: BlocConsumer<AppCubit, AppStates>(
-        builder: (context, state){
-      // AppCubit cubit = AppCubit.get(context);
-      return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: AppCubit.isDark
-          ? ThemeMode.dark
-          : ThemeMode.light,
-
-      builder: (context, child) {
-        child = botToastBuilder(context,child);
-        return child;
-      },
-
-      navigatorObservers: [BotToastNavigatorObserver()],
-
-      home: const Directionality(
-          textDirection: TextDirection.ltr,
-          child: Test(),
+      providers: [
+        BlocProvider<AppCubit>(
+          create: (context) => AppCubit(),
+        ),
+      ],
+      child: BlocConsumer<AppCubit, AppStates>(
+        builder: (context, state) {
+          // AppCubit cubit = AppCubit.get(context);
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: AppCubit.isDark ? ThemeMode.dark : ThemeMode.light,
+            builder: (context, child) {
+              child = botToastBuilder(context, child);
+              return child;
+            },
+            navigatorObservers: [BotToastNavigatorObserver()],
+            home: Directionality(
+              textDirection: TextDirection.ltr,
+              child: ShopAppLoginScreen(),
+            ),
+          );
+        },
+        listener: (context, state) {},
       ),
     );
-  },
-    listener: (context, state){},
-    ),
-    );
-
   }
-
 }

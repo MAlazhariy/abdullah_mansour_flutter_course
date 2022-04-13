@@ -1,6 +1,6 @@
-import 'package:firstapp/layout/news_app/cubit/cubti.dart';
-import 'package:firstapp/layout/news_app/cubit/states.dart';
-import 'package:firstapp/shared/news_data.dart';
+import 'package:firstapp/modules/news_app/cubit/news_cubit.dart';
+import 'package:firstapp/modules/news_app/cubit/news_states.dart';
+import 'package:firstapp/modules/news_app/news_data.dart';
 import 'package:firstapp/shared/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

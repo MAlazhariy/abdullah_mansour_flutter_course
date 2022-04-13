@@ -4,7 +4,6 @@ import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:firstapp/shared/app_cubit/app_states.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
-import 'package:firstapp/shared/osserver.dart';
 import 'package:firstapp/shared/styles/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +13,7 @@ import 'package:bot_toast/bot_toast.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Bloc.observer = MyBlocObserver();
+  // Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
 

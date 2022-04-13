@@ -29,7 +29,9 @@ class ShopAppLoginScreen extends StatelessWidget {
       create: (context) => ShopAppCubit(),
       child: BlocConsumer<ShopAppCubit, ShopAppStates>(
         listener: (context, state) {
+
           if (state is ShopAppLoginSuccessful) {
+
             if (state.loginInfo.status == true) {
               BotToast.showText(
                 text: state.loginInfo.message,
@@ -42,18 +44,7 @@ class ShopAppLoginScreen extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(50),
               );
-            }
-            else {
-              // Fluttertoast.showToast(
-              //     msg: state.loginInfo.message,
-              //     toastLength: Toast.LENGTH_LONG,
-              //     gravity: ToastGravity.BOTTOM,
-              //     timeInSecForIosWeb: 5,
-              //     backgroundColor: Colors.white,
-              //     textColor: Colors.black54,
-              //     // fontSize: 30,
-              // );
-
+            } else {
               BotToast.showText(
                 text: state.loginInfo.message,
                 duration: const Duration(seconds: 6),
@@ -66,8 +57,11 @@ class ShopAppLoginScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
               );
             }
+
           }
+
         },
+
         builder: (context, state) {
           ShopAppCubit cubit = ShopAppCubit.get(context);
           return Scaffold(

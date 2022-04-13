@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 
 class UserModel {
-  int id;
-  String name, phone;
+  final int id;
+  final String name;
+  final String phone;
 
   UserModel({
     required this.id,

@@ -1,6 +1,3 @@
-// ignore_for_file: unused_import
-
-import 'package:flutter/material.dart';
 
 class ShopLoginModel {
   late bool status;
@@ -13,10 +10,11 @@ class ShopLoginModel {
     status = loginData['status'];
     message = loginData['message'];
     data = loginData['data'] != null
-        ? LoginUserData.fromJson(data: loginData['data'])
+        ? LoginUserData.fromJson(json: loginData['data'])
         : null;
   }
 }
+
 
 class LoginUserData {
   late int id;
@@ -28,16 +26,17 @@ class LoginUserData {
   late int credit;
   late String token;
 
+  // named constructor
   LoginUserData.fromJson({
-    required Map<String, dynamic> data,
+    required Map<String, dynamic> json,
   }) {
-    id = data['id'];
-    name = data['name'];
-    email = data['email'];
-    phone = data['phone'];
-    image = data['image'];
-    points = data['points'];
-    credit = data['credit'];
-    token = data['token'];
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    image = json['image'];
+    points = json['points'];
+    credit = json['credit'];
+    token = json['token'];
   }
 }

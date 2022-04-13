@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:firstapp/models/user/shop_app/shop_app_models.dart';
+import 'package:firstapp/models/shop_app/shop_app_models.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';

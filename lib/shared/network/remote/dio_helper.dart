@@ -20,7 +20,7 @@ class DioHelper {
   }
 
   static Future<Response> getDate({
-    required String url,
+    required String endPoint,
     Map<String, dynamic>? query,
     String lang = 'en',
   }) async {
@@ -31,7 +31,7 @@ class DioHelper {
     };
 
     return await dio.get(
-      url,
+      endPoint,
       queryParameters: query,
     );
   }

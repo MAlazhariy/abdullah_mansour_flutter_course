@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firstapp/models/shop_app/categories_model.dart';
 import 'package:firstapp/models/shop_app/home_model.dart';
 import 'package:firstapp/modules/shop_app/categories/categories_screen.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
@@ -20,6 +21,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
   int currentIndex = 0;
   HomeModel? homeModel;
+  CategoriesModel? categoriesModel;
 
 
   List<Widget> bottomScreens = [
@@ -39,17 +41,28 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopLoadingHomeDataState());
 
     DioHelper.getDate(
-      url: HOME,
+      endPoint: HOME,
     ).then((value) {
       homeModel = HomeModel.fromJson(value.data);
-
-      log('status: ' + homeModel!.status.toString());
-      log('image: ' + homeModel!.data.banners[0].image.toString());
 
       emit(ShopSuccessHomeDataState());
     }).catchError((error) {
       log('error when getHomeData: ' + error.toString());
       emit(ShopErrorHomeDataState());
     });
+  }
+
+  void getCategoriesData() {
+
+    DioHelper.getDate(
+      endPoint: CATEGORIES,
+    ).then((value) {
+      categoriesModel = CategoriesModel.fromJson(value.data);
+      emit(ShopSuccessCategoriesState());
+    }).catchError((error) {
+      log('error when getCategoriesData: ' + error.toString());
+      emit(ShopErrorCategoriesState());
+    });
+
   }
 }

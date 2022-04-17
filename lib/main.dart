@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String token = CacheHelper.getToken();
+    // token: acNKCwj0ywQOOmjgJopmVC1rp7MwGAlTEifxS3grRVJP8lPzSF8aqR93VtNZKFH1XeCSUU
     // log('token: $token');
 
     return MultiBlocProvider(
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
 
         // shop app cubit
         BlocProvider(
-          create: (context) => ShopCubit()..getHomeData()..getCategoriesData(),
+          create: (context) => ShopCubit()..getHomeData()..getCategoriesData()..getFavoritesData(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

@@ -1,4 +1,3 @@
-import 'package:firstapp/models/shop_app/categories_model.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
 import 'package:flutter/material.dart';

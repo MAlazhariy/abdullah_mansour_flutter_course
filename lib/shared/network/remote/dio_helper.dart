@@ -37,19 +37,20 @@ class DioHelper {
   }
 
   static Future<Response> postData({
-    required String path,
+    required String endPoint,
     required Map<String, dynamic> data,
     Map<String, dynamic>? query,
     String lang = 'en',
+    String? token,
   }) async {
     dio.options.headers = <String, dynamic>{
       'lang': lang,
       'Content-Type': 'application/json',
-      'Authorization': CacheHelper.getToken(),
+      'Authorization': token?? CacheHelper.getToken(),
     };
 
     return await dio.post(
-      path,
+      endPoint,
       queryParameters: query,
       data: data,
     );

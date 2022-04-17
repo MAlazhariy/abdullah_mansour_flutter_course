@@ -4,6 +4,7 @@ import 'package:firstapp/models/shop_app/categories_model.dart';
 import 'package:firstapp/models/shop_app/home_model.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
+import 'package:firstapp/shared/components/components.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:firstapp/shared/styles/colors.dart';
@@ -16,7 +17,11 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is ShopSuccessChangeFavoritesState && state.model!.status == false){
+          snkBar(context: context, title: state.model!.message);
+        }
+      },
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
 
@@ -79,7 +84,6 @@ class _ProductsBuilder extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-
                   const Text(
                     'Categories',
                     style: TextStyle(
@@ -89,9 +93,7 @@ class _ProductsBuilder extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   _CategoriesBuilder(categoriesModel: categoriesModel),
-
                   const SizedBox(height: 10),
-
                   const Text(
                     'Products',
                     style: TextStyle(
@@ -136,6 +138,9 @@ class _BuildGridProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _isFavorite =
+        ShopCubit.get(context).favorites[productModel.id] == true;
+
     return Container(
       color: Colors.white,
       child: Column(
@@ -207,19 +212,14 @@ class _BuildGridProduct extends StatelessWidget {
                     const Spacer(),
                     IconButton(
                       onPressed: () {
-                        // DioHelper.postData(
-                        //   path: FAVORITES,
-                        //   data: {
-                        //     'product_id': productModel.id,
-                        //   },
-                        // );
+                        ShopCubit.get(context).changeFavorites(productModel.id);
                       },
                       icon: Icon(
-                        productModel.inFavorites
+                        _isFavorite
                             ? Icons.favorite
                             : Icons.favorite_border,
                         size: 20,
-                        color: productModel.inFavorites
+                        color: _isFavorite
                             ? Colors.pink
                             : Colors.grey,
                       ),

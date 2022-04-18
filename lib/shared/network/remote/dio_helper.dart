@@ -23,11 +23,12 @@ class DioHelper {
     required String endPoint,
     Map<String, dynamic>? query,
     String lang = 'en',
+    String? token,
   }) async {
     dio.options.headers = {
       'lang': lang,
       'Content-Type': 'application/json',
-      'Authorization': CacheHelper.getToken(),
+      'Authorization': token?? CacheHelper.getToken(),
     };
 
     return await dio.get(

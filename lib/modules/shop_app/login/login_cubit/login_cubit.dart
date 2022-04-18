@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:firstapp/models/shop_app/shop_app_models.dart';
+import 'package:firstapp/models/shop_app/login_model.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
@@ -74,7 +74,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
       },
       lang: lang,
     ).then((value) {
-      emit(ShopLoginSuccessful(ShopLoginModel(loginData: value.data)));
+      emit(ShopLoginSuccessful(ShopLoginModel(value.data)));
     }).catchError((error) {
       log('--Error during SignIn: ${error.toString()}');
       emit(ShopLoginError());

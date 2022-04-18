@@ -13,8 +13,8 @@ Widget defaultButton({
   double fontSize = 16,
   bool isUpperCase = true,
   double border = 0,
-}) =>
-    Container(
+}) {
+  return Container(
       width: width,
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -33,12 +33,14 @@ Widget defaultButton({
         ),
       ),
     );
+}
 
 Widget whiteTextForm({
   TextInputAction inputAction = TextInputAction.none,
   required TextEditingController controller,
   TextInputType keyboardType = TextInputType.emailAddress,
   String hintText = '',
+  String labelText = '',
   Icon? prefixIcon,
   String helper = '',
   void Function(String)? onChanged,
@@ -80,6 +82,12 @@ Widget whiteTextForm({
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: kRedColor,
+        ),
+        labelText: labelText,
+        labelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: kMainColor,
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),

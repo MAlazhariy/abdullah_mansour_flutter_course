@@ -40,7 +40,7 @@ Widget whiteTextForm({
   required TextEditingController controller,
   TextInputType keyboardType = TextInputType.emailAddress,
   String hintText = '',
-  String labelText = '',
+  String? labelText,
   Icon? prefixIcon,
   String helper = '',
   void Function(String)? onChanged,
@@ -66,7 +66,7 @@ Widget whiteTextForm({
       style: const TextStyle(
         fontSize: 19.5,
         fontWeight: FontWeight.w600,
-        color: kRedColor,
+        color: kMainColor,
       ),
       controller: controller,
       keyboardType: keyboardType,
@@ -84,11 +84,6 @@ Widget whiteTextForm({
           color: kRedColor,
         ),
         labelText: labelText,
-        labelStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-          color: kMainColor,
-        ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),
           borderSide: const BorderSide(

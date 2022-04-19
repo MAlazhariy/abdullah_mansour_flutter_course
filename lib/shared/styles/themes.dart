@@ -50,7 +50,7 @@ ThemeData darkTheme = ThemeData(
 
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.deepOrange,
+  primarySwatch: Colors.pink,
   appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,

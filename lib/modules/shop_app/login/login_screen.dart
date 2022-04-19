@@ -33,7 +33,7 @@ class ShopAppLoginScreen extends StatelessWidget {
             if (state.loginInfo.status == true) {
               snkBar(
                 context: context,
-                title: state.loginInfo.message,
+                title: state.loginInfo.message ?? 'NULL exception',
                 seconds: 3,
                 snackColor: Colors.green,
                 // titleColor: Colors.white,
@@ -63,7 +63,7 @@ class ShopAppLoginScreen extends StatelessWidget {
 
               snkBar(
                 context: context,
-                title: state.loginInfo.message,
+                title: state.loginInfo.message ?? 'NULL exception',
                 seconds: 5,
                 snackColor: Colors.red,
                 titleColor: Colors.white,

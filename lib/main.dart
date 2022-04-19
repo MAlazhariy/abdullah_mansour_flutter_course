@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String token = CacheHelper.getToken();
+    String _token = CacheHelper.getToken();
     // token: acNKCwj0ywQOOmjgJopmVC1rp7MwGAlTEifxS3grRVJP8lPzSF8aqR93VtNZKFH1XeCSUU
     // log('token: $token');
 
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
               return child;
             },
             navigatorObservers: [BotToastNavigatorObserver()],
-            home: token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
+            home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
           );
         },
         listener: (context, state) {},

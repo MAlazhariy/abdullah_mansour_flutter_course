@@ -45,7 +45,7 @@ class ShopCubit extends Cubit<ShopStates> {
   void getHomeData() {
     emit(ShopLoadingHomeDataState());
 
-    DioHelper.getDate(
+    DioHelper.getData(
       endPoint: HOME,
     ).then((value) {
       homeModel = HomeModel.fromJson(value.data);
@@ -63,7 +63,7 @@ class ShopCubit extends Cubit<ShopStates> {
   }
 
   void getCategoriesData() {
-    DioHelper.getDate(
+    DioHelper.getData(
       endPoint: CATEGORIES,
     ).then((value) {
       categoriesModel = CategoriesModel.fromJson(value.data);
@@ -104,7 +104,7 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopLoadingGetFavoritesState());
     log('loading ShopLoadingGetFavoritesState');
 
-    DioHelper.getDate(
+    DioHelper.getData(
       endPoint: FAVORITES,
     ).then((value) {
       favoritesModel = GetFavoritesModel.fromJson(value.data);
@@ -117,9 +117,10 @@ class ShopCubit extends Cubit<ShopStates> {
   void getUserData() {
     emit(ShopLoadingUserDataState());
 
-    DioHelper.getDate(
+    DioHelper.getData(
       endPoint: PROFILE,
     ).then((value) {
+      log('saving data in getUserData..');
       userModel = ShopLoginModel(value.data);
       emit(ShopSuccessUserDataState());
     }).catchError((error) {

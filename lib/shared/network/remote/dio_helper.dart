@@ -19,7 +19,7 @@ class DioHelper {
     log('dio object has been created');
   }
 
-  static Future<Response> getDate({
+  static Future<Response> getData({
     required String endPoint,
     Map<String, dynamic>? query,
     String lang = 'en',

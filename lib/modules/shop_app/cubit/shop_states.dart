@@ -1,4 +1,5 @@
 import 'package:firstapp/models/shop_app/change_favorites_model.dart';
+import 'package:firstapp/models/shop_app/login_model.dart';
 
 abstract class ShopStates {}
 

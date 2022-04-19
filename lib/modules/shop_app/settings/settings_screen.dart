@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
 import 'package:firstapp/shared/components/components.dart';
+import 'package:firstapp/shared/components/constants.dart';
+import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +23,10 @@ class SettingsScreen extends StatelessWidget {
         ShopCubit cubit = ShopCubit.get(context);
 
         if (cubit.userModel != null) {
+          nameController.text = cubit.userModel!.data?.name ?? '';
+          emailController.text = cubit.userModel!.data?.email ?? '';
+          phoneController.text = cubit.userModel!.data?.phone ?? '';
+
           return Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -35,10 +43,11 @@ class SettingsScreen extends StatelessWidget {
                   keyboardType: TextInputType.name,
                   prefixIcon: const Icon(
                     Icons.person,
-                    size: 13,
+                    size: 20,
+                    color: kMainColor,
                   ),
                 ),
-                const SizedBox(height: 20),
+                // const SizedBox(height: 20),
                 whiteTextForm(
                   labelText: 'email',
                   validator: (String? value) {
@@ -51,10 +60,11 @@ class SettingsScreen extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: const Icon(
                     Icons.email,
-                    size: 13,
+                    size: 20,
+                    color: kMainColor,
                   ),
                 ),
-                const SizedBox(height: 20),
+                // const SizedBox(height: 20),
                 whiteTextForm(
                   labelText: 'phone',
                   validator: (String? value) {
@@ -67,8 +77,17 @@ class SettingsScreen extends StatelessWidget {
                   keyboardType: TextInputType.phone,
                   prefixIcon: const Icon(
                     Icons.phone,
-                    size: 13,
+                    size: 20,
+                    color: kMainColor,
                   ),
+                ),
+
+                const SizedBox(height: 20),
+                defaultButton(
+                  onPressedFunction: (){
+                    signOut(context);
+                  },
+                  text: 'LOGOUT',
                 ),
               ],
             ),

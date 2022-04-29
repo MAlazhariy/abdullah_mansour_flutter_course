@@ -1,7 +1,11 @@
 import 'package:firstapp/layout/shop_layout.dart';
+import 'package:firstapp/modules/login_screen/login_screen.dart';
+import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
-import 'package:firstapp/modules/shop_app/register/register_screen.dart';
+import 'package:firstapp/modules/shop_app/login/login_screen.dart';
+import 'package:firstapp/modules/shop_app/register/register_cubit/register_cubit.dart';
+import 'package:firstapp/modules/shop_app/register/register_cubit/register_states.dart';
 import 'package:firstapp/shared/components/components.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/styles/colors.dart';
@@ -10,11 +14,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ShopAppLoginScreen extends StatelessWidget {
-  ShopAppLoginScreen({Key? key}) : super(key: key);
+class ShopAppRegisterScreen extends StatelessWidget {
+  ShopAppRegisterScreen({Key? key}) : super(key: key);
 
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -26,14 +32,14 @@ class ShopAppLoginScreen extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (context) => ShopLoginCubit(),
-      child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
+      create: (context) => ShopRegisterCubit(),
+      child: BlocConsumer<ShopRegisterCubit, ShopRegisterStates>(
         listener: (context, state) {
-          if (state is ShopLoginSuccessful) {
+          if (state is ShopRegisterSuccessful) {
             if (state.loginInfo.status == true) {
               snkBar(
                 context: context,
-                title: state.loginInfo.message ?? 'NULL exception',
+                title: state.loginInfo.message ?? 'NULL',
                 seconds: 3,
                 snackColor: Colors.green,
                 // titleColor: Colors.white,
@@ -46,21 +52,9 @@ class ShopAppLoginScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) {
                   return const ShopLayout();
                 }),
-                (route) => false,
+                    (route) => false,
               );
             } else {
-              // BotToast.showText(
-              //   text: state.loginInfo.message,
-              //   duration: const Duration(seconds: 6),
-              //   contentColor: Colors.redAccent,
-              //   textStyle: const TextStyle(
-              //     fontSize: 15,
-              //     color: Colors.white,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              //   borderRadius: BorderRadius.circular(50),
-              // );
-
               snkBar(
                 context: context,
                 title: state.loginInfo.message ?? 'NULL exception',
@@ -72,7 +66,8 @@ class ShopAppLoginScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          ShopLoginCubit cubit = ShopLoginCubit.get(context);
+          ShopRegisterCubit cubit = ShopRegisterCubit.get(context);
+
           return Scaffold(
             backgroundColor: const Color(0xFFFFFFFF),
             // backgroundColor: Colors.red,
@@ -80,17 +75,18 @@ class ShopAppLoginScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    height: 240,
-                    child: SvgPicture.asset(
-                      'assets/images/test.svg',
-                      fit: BoxFit.cover,
-                      alignment: Alignment.bottomCenter,
-                      // height: 240,
-                      // color: Colors.deepOrange,
-                    ),
-                  ),
+                  // Container(
+                  //   alignment: Alignment.bottomCenter,
+                  //   height: 80,
+                  //   child: SvgPicture.asset(
+                  //     'assets/images/test.svg',
+                  //     fit: BoxFit.cover,
+                  //     alignment: Alignment.bottomCenter,
+                  //     // height: 240,
+                  //     // color: Colors.deepOrange,
+                  //   ),
+                  // ),
+                  const SizedBox(height: 20),
                   Form(
                     key: formKey,
                     child: Padding(
@@ -100,18 +96,18 @@ class ShopAppLoginScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hello',
+                            'Welcome',
                             style:
                                 Theme.of(context).textTheme.headline1!.copyWith(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 85,
+                                      fontSize: 60,
                                       color: const Color(0xE639444C),
                                       // letterSpacing: 1.2,
                                     ),
                           ),
                           // SizedBox(height: 5,),
                           Text(
-                            'Sign in to your account',
+                            'Create a new account',
                             style:
                                 Theme.of(context).textTheme.headline2!.copyWith(
                                       color: const Color(0x7C323F48),
@@ -119,9 +115,39 @@ class ShopAppLoginScreen extends StatelessWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                           ),
-                          const SizedBox(
-                            height: 45,
+                          const SizedBox(height: 45),
+
+                          // name
+                          Container(
+                            child: whiteTextForm(
+                              controller: nameController,
+                              validator: (value) {
+                                return value!.isEmpty ? 'Required' : null;
+                              },
+                              keyboardType: TextInputType.name,
+                              inputAction: TextInputAction.next,
+                              hintText: 'User name',
+                              prefixIcon: Icon(
+                                Icons.person,
+                                color: cubit.changeEmailColor
+                                    ? kRedColor
+                                    : kGreyColor,
+                                size: 22.5,
+                              ),
+                              // onChanged: (value) {
+                              //   if (value.isEmpty) {
+                              //     cubit.changeColor(
+                              //         changeColor: false, isEmail: true);
+                              //   } else if (!cubit.changeEmailColor) {
+                              //     cubit.changeColor(
+                              //         changeColor: true, isEmail: true);
+                              //   }
+                              // },
+                            ),
                           ),
+                          const SizedBox(height: 8),
+
+                          // email
                           Container(
                             child: whiteTextForm(
                               controller: emailController,
@@ -149,9 +175,9 @@ class ShopAppLoginScreen extends StatelessWidget {
                               },
                             ),
                           ),
-                          const SizedBox(
-                            height: 25,
-                          ),
+                          const SizedBox(height: 8),
+
+                          // password
                           Stack(
                             alignment: Alignment.topRight,
                             children: [
@@ -168,7 +194,7 @@ class ShopAppLoginScreen extends StatelessWidget {
                                     size: 22.5,
                                   ),
                                   hintText: 'Password',
-                                  inputAction: TextInputAction.done,
+                                  inputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
                                   obscureText: !cubit.showPassword,
                                   suffix: Text(
@@ -195,15 +221,18 @@ class ShopAppLoginScreen extends StatelessWidget {
                                   },
                                   onFieldSubmitted: (value) {
                                     cubit.hidePassword();
-                                    if (formKey.currentState!.validate()) {
-                                      cubit.signIn(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                      );
-                                    }
+                                    // if (formKey.currentState!.validate()) {
+                                    //   cubit.register(
+                                    //     email: emailController.text,
+                                    //     password: passwordController.text,
+                                    //     name: nameController.text,
+                                    //     phone: phoneController.text,
+                                    //   );
+                                    // }
                                   },
                                 ),
                               ),
+
                               Padding(
                                 padding: const EdgeInsets.only(
                                   right: 2.5,
@@ -212,7 +241,7 @@ class ShopAppLoginScreen extends StatelessWidget {
                                 // ignore: deprecated_member_use
                                 child: RaisedButton(
                                   onPressed: () {
-                                    cubit.changeShowPassword();
+                                    cubit.changePasswordVisibility();
                                   },
                                   color: kRedColor.withAlpha(19),
                                   highlightColor: kRedColor.withAlpha(5),
@@ -251,9 +280,38 @@ class ShopAppLoginScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 40,
+                          const SizedBox(height: 8),
+
+                          // phone
+                          Container(
+                            child: whiteTextForm(
+                              controller: phoneController,
+                              validator: (value) {
+                                return value!.isEmpty ? 'Required' : null;
+                              },
+                              keyboardType: TextInputType.phone,
+                              inputAction: TextInputAction.done,
+                              hintText: 'Phone number',
+                              prefixIcon: Icon(
+                                Icons.phone,
+                                color: cubit.changeEmailColor
+                                    ? kRedColor
+                                    : kGreyColor,
+                                size: 22.5,
+                              ),
+                              // onChanged: (value) {
+                              //   if (value.isEmpty) {
+                              //     cubit.changeColor(
+                              //         changeColor: false, isEmail: true);
+                              //   } else if (!cubit.changeEmailColor) {
+                              //     cubit.changeColor(
+                              //         changeColor: true, isEmail: true);
+                              //   }
+                              // },
+                            ),
                           ),
+                          const SizedBox(height: 30),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -261,9 +319,11 @@ class ShopAppLoginScreen extends StatelessWidget {
                               RaisedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    cubit.signIn(
+                                    cubit.register(
                                       email: emailController.text,
                                       password: passwordController.text,
+                                      name: nameController.text,
+                                      phone: phoneController.text,
                                     );
                                   }
                                 },
@@ -275,11 +335,11 @@ class ShopAppLoginScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        (state is! ShopLoginLoading)
+                                        (state is! ShopRegisterLoading)
                                             ? const Color(0XFFFF4AA3)
                                             : const Color(0XFFFF4AA3)
                                                 .withAlpha(90),
-                                        (state is! ShopLoginLoading)
+                                        (state is! ShopRegisterLoading)
                                             ? const Color(0XFFF8B556)
                                             : const Color(0XFFF8B556)
                                                 .withAlpha(90),
@@ -294,9 +354,9 @@ class ShopAppLoginScreen extends StatelessWidget {
                                       vertical: 15,
                                       horizontal: 50,
                                     ),
-                                    child: (state is! ShopLoginLoading)
+                                    child: (state is! ShopRegisterLoading)
                                         ? Text(
-                                            'SIGN IN',
+                                            'REGISTER',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline2!
@@ -328,26 +388,26 @@ class ShopAppLoginScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
-                                'Don\'t have an account?',
+                                'Have an account?',
                                 style: TextStyle(
                                   color: kGreyColor,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              const SizedBox(width: 2.5),
+                              const SizedBox(width: 3),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          ShopAppRegisterScreen(),
+                                          ShopAppLoginScreen(),
                                     ),
                                   );
                                 },
                                 child: const Text(
-                                  'Create',
+                                  'Login',
                                   style: TextStyle(
                                     // color: Colors.grey[600],
                                     color: kRedColor,

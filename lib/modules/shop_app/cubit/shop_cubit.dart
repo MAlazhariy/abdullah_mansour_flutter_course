@@ -11,6 +11,7 @@ import 'package:firstapp/modules/shop_app/favorites/favorites_screen.dart';
 import 'package:firstapp/modules/shop_app/products/products_screen.dart';
 import 'package:firstapp/modules/shop_app/settings/settings_screen.dart';
 import 'package:firstapp/shared/network/end_points.dart';
+import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -119,6 +120,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
     DioHelper.getData(
       endPoint: PROFILE,
+      token: CacheHelper.getToken(),
     ).then((value) {
       log('saving data in getUserData..');
       userModel = ShopLoginModel(value.data);
@@ -126,6 +128,31 @@ class ShopCubit extends Cubit<ShopStates> {
     }).catchError((error) {
       log('error when getUserData: ' + error.toString());
       emit(ShopErrorUserDataState());
+    });
+  }
+
+  void updateUserData({
+  required String name,
+  required String email,
+  required String phone,
+}) {
+    emit(ShopLoadingUpdateUserState());
+
+    DioHelper.putData(
+      endPoint: UPDATE_PROFILE,
+      token: CacheHelper.getToken(),
+      data: {
+        'name':name,
+        'email':email,
+        'phone':phone,
+      },
+    ).then((value) {
+      log('saving data in getUpdateUser..');
+      userModel = ShopLoginModel(value.data);
+      emit(ShopSuccessUpdateUserState());
+    }).catchError((error) {
+      log('error when getUpdateUser: ' + error.toString());
+      emit(ShopErrorUpdateUserState());
     });
   }
 }

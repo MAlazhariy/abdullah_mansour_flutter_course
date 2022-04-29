@@ -27,9 +27,9 @@ class LoginUserData {
   late String email;
   late String phone;
   late String image;
-  late int points;
-  late int credit;
   late String token;
+  late int? points;
+  late int? credit;
 
   // named constructor
   LoginUserData.fromJson(Map<String, dynamic> json) {

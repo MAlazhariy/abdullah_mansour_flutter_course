@@ -2,15 +2,16 @@ import 'dart:developer';
 
 import 'package:firstapp/models/shop_app/login_model.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
+import 'package:firstapp/modules/shop_app/register/register_cubit/register_states.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShopLoginCubit extends Cubit<ShopLoginStates> {
-  ShopLoginCubit() : super(ShopLoginInitState());
+class ShopRegisterCubit extends Cubit<ShopRegisterStates> {
+  ShopRegisterCubit() : super(ShopRegisterInitState());
 
-  static ShopLoginCubit get(context) {
+  static ShopRegisterCubit get(context) {
     return BlocProvider.of(context);
   }
 
@@ -18,21 +19,19 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
   String passwordShowHide = 'Show';
   bool changePassColor = false;
   bool changeEmailColor = false;
-  TextInputType emailKeyboard = TextInputType.emailAddress;
 
-  String emailCounter = '';
 
-  void changeShowPassword() {
+  void changePasswordVisibility () {
     showPassword = !showPassword;
     passwordShowHide = showPassword ? 'Hide' : 'Show';
-    emit(ShopLoginChangePasswordVisibility());
+    emit(ShopRegisterChangePasswordVisibility());
   }
 
 
-  void hidePassword() {
+  void hidePassword () {
     showPassword = false;
     passwordShowHide = 'Show';
-    emit(ShopLoginChangePasswordVisibility());
+    emit(ShopRegisterChangePasswordVisibility());
   }
 
   void changeColor({
@@ -40,30 +39,34 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
     required bool isEmail,
   }) {
     isEmail ? changeEmailColor = changeColor : changePassColor = changeColor;
-    emit(ShopLoginChangeColor());
+    emit(ShopRegisterChangeColor());
   }
 
-  void signIn({
+  void register({
+    required String name,
     required String email,
     required String password,
+    required String phone,
     String lang = 'ar',
   }) {
     // loading
-    emit(ShopLoginLoading());
+    emit(ShopRegisterLoading());
 
     // post login data
     DioHelper.postData(
-      endPoint: LOGIN,
+      endPoint: REGISTER,
       data: {
+        'name': name,
         'email': email,
         'password': password,
+        'phone': phone,
       },
       lang: lang,
     ).then((value) {
-      emit(ShopLoginSuccessful(ShopLoginModel(value.data)));
+      emit(ShopRegisterSuccessful(ShopLoginModel(value.data)));
     }).catchError((error) {
-      log('--Error during SignIn: ${error.toString()}');
-      emit(ShopLoginError());
+      log('-- Error when Register: ${error.toString()}');
+      emit(ShopRegisterError());
     });
   }
 }

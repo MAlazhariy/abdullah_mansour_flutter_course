@@ -9,9 +9,9 @@ class NewsHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (BuildContext context) => NewsCubit(),
+      create: (BuildContext context) => NewsCubit(),
       child: BlocConsumer<NewsCubit, NewsStates>(
-        listener: (context, state){},
+        listener: (context, state) {},
         builder: (context, state) {
           NewsCubit cubit = NewsCubit.get(context);
           return Scaffold(
@@ -21,15 +21,17 @@ class NewsHomeScreen extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  onPressed: (){},
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.search,
                     size: 24,
                   ),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     // AppCubit.get(context).changeTheme();
                   },
                   icon: const Icon(
@@ -37,11 +39,13 @@ class NewsHomeScreen extends StatelessWidget {
                     size: 24,
                   ),
                 ),
-                const SizedBox(width: 15,),
+                const SizedBox(
+                  width: 15,
+                ),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
-              onTap: (int index){
+              onTap: (int index) {
                 cubit.changeNavBar(index);
               },
               currentIndex: cubit.currentBottomIndex,

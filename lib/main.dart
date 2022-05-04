@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_screen.dart';
+import 'package:firstapp/modules/social_app/social_login/login_screen.dart';
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:firstapp/shared/app_cubit/app_states.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
@@ -21,6 +23,9 @@ void main() async {
   // local DB init & open
   await Hive.initFlutter();
   await Hive.openBox('shop_app');
+
+  // init Firebase
+  await Firebase.initializeApp();
 
   // AppCubit.isDark = CacheHelper.getBool(key: 'isDark') ?? false;
 
@@ -48,9 +53,9 @@ class MyApp extends StatelessWidget {
         ),
 
         // shop app cubit
-        BlocProvider(
-          create: (context) => ShopCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData(),
-        ),
+        // BlocProvider(
+          // create: (context) => ShopCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData(),
+        // ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         builder: (context, state) {
@@ -65,7 +70,8 @@ class MyApp extends StatelessWidget {
               return child;
             },
             navigatorObservers: [BotToastNavigatorObserver()],
-            home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
+            // home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
+            home: SocialLoginScreen(),
           );
         },
         listener: (context, state) {},

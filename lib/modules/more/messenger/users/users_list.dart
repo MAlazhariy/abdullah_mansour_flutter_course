@@ -1,4 +1,4 @@
-import 'package:firstapp/models/user/user_model.dart';
+import 'package:firstapp/models/messenger_user_model/user_model.dart';
 import 'package:flutter/material.dart';
 
 

@@ -1,21 +1,12 @@
-import 'package:firstapp/layout/shop_layout.dart';
-import 'package:firstapp/modules/login_screen/login_screen.dart';
-import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
-import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
-import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
-import 'package:firstapp/modules/shop_app/login/login_screen.dart';
-import 'package:firstapp/modules/shop_app/register/register_cubit/register_cubit.dart';
-import 'package:firstapp/modules/shop_app/register/register_cubit/register_states.dart';
+import 'package:firstapp/layout/social_layout.dart';
 import 'package:firstapp/modules/social_app/social_login/login_screen.dart';
 import 'package:firstapp/modules/social_app/social_register/register_cubit/register_cubit.dart';
 import 'package:firstapp/modules/social_app/social_register/register_cubit/register_states.dart';
 import 'package:firstapp/shared/components/components.dart';
-import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialRegisterScreen extends StatelessWidget {
   SocialRegisterScreen({Key? key}) : super(key: key);
@@ -38,35 +29,19 @@ class SocialRegisterScreen extends StatelessWidget {
       create: (context) => SocialRegisterCubit(),
       child: BlocConsumer<SocialRegisterCubit, SocialRegisterStates>(
         listener: (context, state) {
-          // if (state is SocialRegisterSuccessful) {
-          //   if (state.loginInfo.status == true) {
-          //     snkBar(
-          //       context: context,
-          //       title: state.loginInfo.message ?? 'NULL',
-          //       seconds: 3,
-          //       snackColor: Colors.green,
-          //       // titleColor: Colors.white,
-          //     );
-          //
-          //     CacheHelper.setToken(state.loginInfo.data!.token);
-          //
-          //     Navigator.pushAndRemoveUntil(
-          //       context,
-          //       MaterialPageRoute(builder: (context) {
-          //         return const SocialLayout();
-          //       }),
-          //           (route) => false,
-          //     );
-          //   } else {
-          //     snkBar(
-          //       context: context,
-          //       title: state.loginInfo.message ?? 'NULL exception',
-          //       seconds: 5,
-          //       snackColor: Colors.red,
-          //       titleColor: Colors.white,
-          //     );
-          //   }
-          // }
+          if (state is SocialCreateUserSuccessful) {
+            snkBar(
+              context: context,
+              title: 'Registered successfully',
+              snackColor: Colors.green,
+              seconds: 1,
+            );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SocialLayout(),
+                ));
+          }
         },
         builder: (context, state) {
           SocialRegisterCubit cubit = SocialRegisterCubit.get(context);
@@ -235,7 +210,6 @@ class SocialRegisterScreen extends StatelessWidget {
                                   },
                                 ),
                               ),
-
                               Padding(
                                 padding: const EdgeInsets.only(
                                   right: 2.5,
@@ -404,8 +378,7 @@ class SocialRegisterScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          SocialLoginScreen(),
+                                      builder: (context) => SocialLoginScreen(),
                                     ),
                                   );
                                 },

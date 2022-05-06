@@ -13,3 +13,9 @@ class SocialRegisterError extends SocialRegisterStates{
   SocialRegisterError(this.error);
 }
 class SocialRegisterSuccessful extends SocialRegisterStates {}
+
+class SocialCreateUserError extends SocialRegisterStates{
+  late String error;
+  SocialCreateUserError(this.error);
+}
+class SocialCreateUserSuccessful extends SocialRegisterStates {}

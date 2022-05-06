@@ -1,8 +1,4 @@
 import 'package:firstapp/layout/shop_layout.dart';
-import 'package:firstapp/modules/login_screen/login_screen.dart';
-import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
-import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
-import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
 import 'package:firstapp/modules/shop_app/login/login_screen.dart';
 import 'package:firstapp/modules/shop_app/register/register_cubit/register_cubit.dart';
 import 'package:firstapp/modules/shop_app/register/register_cubit/register_states.dart';
@@ -12,7 +8,6 @@ import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ShopAppRegisterScreen extends StatelessWidget {
   ShopAppRegisterScreen({Key? key}) : super(key: key);

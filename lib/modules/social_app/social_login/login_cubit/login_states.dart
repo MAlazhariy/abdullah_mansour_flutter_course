@@ -11,6 +11,11 @@ class SocialLoginChangeKeyboardType extends SocialLoginStates{}
 class SocialLoginLoading extends SocialLoginStates{}
 class SocialLoginError extends SocialLoginStates{
   late final String error;
+
   SocialLoginError(this.error);
 }
-class SocialLoginSuccessful extends SocialLoginStates {}
+class SocialLoginSuccessful extends SocialLoginStates {
+  final String uId;
+
+  SocialLoginSuccessful(this.uId);
+}

@@ -1,4 +1,5 @@
 import 'package:firstapp/layout/shop_layout.dart';
+import 'package:firstapp/layout/social_layout.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
 import 'package:firstapp/modules/shop_app/register/register_screen.dart';
@@ -6,6 +7,7 @@ import 'package:firstapp/modules/social_app/social_login/login_cubit/login_cubit
 import 'package:firstapp/modules/social_app/social_login/login_cubit/login_states.dart';
 import 'package:firstapp/modules/social_app/social_register/social_register_screen.dart';
 import 'package:firstapp/shared/components/components.dart';
+import 'package:firstapp/shared/components/push.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,21 @@ class SocialLoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SocialLoginCubit(),
       child: BlocConsumer<SocialLoginCubit, SocialLoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is SocialLoginError) {
+            snkBar(
+              context: context,
+              title: state.error,
+              snackColor: Colors.red,
+              titleColor: Colors.white,
+            );
+          } else if (state is SocialLoginSuccessful) {
+            pushAndFinish(
+              context,
+              const SocialLayout(),
+            );
+          }
+        },
         builder: (context, state) {
           SocialLoginCubit cubit = SocialLoginCubit.get(context);
 
@@ -111,9 +127,7 @@ class SocialLoginScreen extends StatelessWidget {
                               },
                             ),
                           ),
-                          const SizedBox(
-                            height: 5
-                          ),
+                          const SizedBox(height: 5),
                           Stack(
                             alignment: Alignment.topRight,
                             children: [

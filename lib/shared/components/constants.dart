@@ -18,3 +18,6 @@ void signOut(BuildContext context){
         (route) => false,
   );
 }
+
+
+String uId = '';

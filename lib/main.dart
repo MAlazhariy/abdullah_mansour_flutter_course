@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firstapp/layout/shop_layout.dart';
+import 'package:firstapp/layout/social_layout.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_screen.dart';
+import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/social_login/login_screen.dart';
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';
 import 'package:firstapp/shared/app_cubit/app_states.dart';
+import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:firstapp/shared/styles/themes.dart';
@@ -44,12 +47,16 @@ class MyApp extends StatelessWidget {
     String _token = CacheHelper.getToken();
     // token: acNKCwj0ywQOOmjgJopmVC1rp7MwGAlTEifxS3grRVJP8lPzSF8aqR93VtNZKFH1XeCSUU
     // log('token: $token');
+    uId = CacheHelper.getSocialUId();
 
     return MultiBlocProvider(
       providers: [
         // to-do app cubit
         BlocProvider(
           create: (context) => AppCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SocialCubit()..getUserData(),
         ),
 
         // shop app cubit
@@ -71,7 +78,9 @@ class MyApp extends StatelessWidget {
             },
             navigatorObservers: [BotToastNavigatorObserver()],
             // home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
-            home: SocialLoginScreen(),
+            home: uId.isEmpty
+                ? SocialLoginScreen()
+                : const SocialLayout(),
           );
         },
         listener: (context, state) {},

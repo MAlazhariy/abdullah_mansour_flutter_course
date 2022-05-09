@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
 import 'package:firstapp/shared/components/components.dart';
+import 'package:firstapp/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,51 +21,51 @@ class SocialLayout extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('News feed'),
+            title: Text(cubit.titles[cubit.currentIndex]),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(IconBroken.Notification),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(IconBroken.Search),
+              ),
+            ],
           ),
           body: cubit.userModel != null
               ? Column(
                   children: [
-                    // verify email
-                    if (!FirebaseAuth.instance.currentUser!.emailVerified)
-                      Container(
-                        color: Colors.amber.withOpacity(.6),
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.warning_amber_outlined),
-                            const SizedBox(width: 10),
-                            const Expanded(
-                              child: Text('Please verify your Email!'),
-                            ),
-                            const SizedBox(width: 10),
-                            TextButton(
-                              onPressed: () {
-                                FirebaseAuth.instance.currentUser!
-                                    .sendEmailVerification()
-                                    .then((_) {
-                                  cubit.userModel!.isEmailVerified = true;
-                                  snkBar(
-                                    context: context,
-                                    title: 'Check your mail 📧',
-                                  );
-                                }).catchError((error) {
-                                  log('error when sendEmailVerification: ${error.toString()}');
-                                });
-                              },
-                              child: Text(
-                                'Verify now'.toUpperCase(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    Expanded(
+                      child: cubit.screens[cubit.currentIndex],
+                    ),
                   ],
                 )
               : const Center(child: CircularProgressIndicator()),
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: (index) {
+              cubit.changeNavBar(index);
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(IconBroken.Home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(IconBroken.Chat),
+                label: 'Chat',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(IconBroken.Location),
+                label: 'Users',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(IconBroken.Setting),
+                label: 'Settings',
+              ),
+            ],
+            currentIndex: cubit.currentIndex,
+          ),
         );
       },
     );

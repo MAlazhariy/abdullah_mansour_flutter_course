@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData darkTheme = ThemeData(
-  primarySwatch: Colors.deepOrange,
+  primaryColor: Colors.blueAccent,
   appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Color(0xFF313131),
@@ -50,7 +50,7 @@ ThemeData darkTheme = ThemeData(
 
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.pink,
+  primaryColor: Colors.blueAccent,
   appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,

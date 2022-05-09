@@ -87,6 +87,9 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
       name: name,
       phone: phone,
       uId: uId,
+      image: 'https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg?w=740&t=st=1652066539~exp=1652067139~hmac=56c240665794b1798237d08ee1bdf76558858e666f86e98d001747b6ec5b1461',
+      cover: 'https://img.freepik.com/free-vector/hand-drawn-psychedelic-colorful-background_23-2149075812.jpg?w=900&t=st=1652084208~exp=1652084808~hmac=39bc5b885407fed98b7f70b82e221e00a6d31dd531d892337981a8929f74681c',
+      bio: '',
       isEmailVerified: false,
     );
 

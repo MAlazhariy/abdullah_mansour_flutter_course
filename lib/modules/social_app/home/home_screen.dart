@@ -14,6 +14,8 @@ class HomeScreen extends StatelessWidget {
     return BlocConsumer<SocialCubit, SocialStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        var userModel = SocialCubit.get(context).userModel;
+
         return ListView.separated(
           itemBuilder: (context, index){
             return Container(
@@ -47,12 +49,11 @@ class HomeScreen extends StatelessWidget {
                       Container(
                         width: 50,
                         height: 50,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(
-                              // 'https://img.freepik.com/free-photo/medium-shot-happy-man-smiling_23-2148221808.jpg',
-                              'https://scontent.fcai19-2.fna.fbcdn.net/v/t39.30808-6/271724028_4671980919555578_2145521849635784870_n.jpg?_nc_cat=106&ccb=1-6&_nc_sid=09cbfe&_nc_eui2=AeEvu3GqCpFIMHdKb_K945dT9TJP4B7smw31Mk_gHuybDRBzgiJQUXQhTyr2HgvdvC_WDj59vGZ3ssUhrPzrYS7A&_nc_ohc=WcbKE9Ew5AYAX9g8c-M&_nc_ht=scontent.fcai19-2.fna&oh=00_AT9FAGVnun0_8iAvlU00u7Nin2pf0lZpaMmfd5WK0TCCCw&oe=627C37EA',
+                              userModel!.image,
                             ),
                             fit: BoxFit.cover,
                           ),
@@ -66,17 +67,17 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             // name
                             Row(
-                              children: const [
+                              children: [
                                 Text(
-                                  'Mostafa Alazhariy',
-                                  style: TextStyle(
+                                  userModel.name,
+                                  style: const TextStyle(
                                     color: Colors.black87,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                SizedBox(width: 3),
-                                Icon(
+                                const SizedBox(width: 3),
+                                const Icon(
                                   Icons.check_circle,
                                   color: Colors.blueAccent,
                                   size: 14.5,
@@ -282,11 +283,11 @@ class HomeScreen extends StatelessWidget {
                       Container(
                         width: 35,
                         height: 35,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(
-                              'https://scontent.fcai19-2.fna.fbcdn.net/v/t39.30808-6/271724028_4671980919555578_2145521849635784870_n.jpg?_nc_cat=106&ccb=1-6&_nc_sid=09cbfe&_nc_eui2=AeEvu3GqCpFIMHdKb_K945dT9TJP4B7smw31Mk_gHuybDRBzgiJQUXQhTyr2HgvdvC_WDj59vGZ3ssUhrPzrYS7A&_nc_ohc=WcbKE9Ew5AYAX9g8c-M&_nc_ht=scontent.fcai19-2.fna&oh=00_AT9FAGVnun0_8iAvlU00u7Nin2pf0lZpaMmfd5WK0TCCCw&oe=627C37EA',
+                                userModel.image,
                             ),
                             fit: BoxFit.cover,
                           ),

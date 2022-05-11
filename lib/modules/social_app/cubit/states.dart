@@ -69,3 +69,29 @@ class SocialUpdateBioErrorState extends SocialStates {
 
   SocialUpdateBioErrorState(this.error);
 }
+
+/// create a new post
+class SocialRemovePostImageSuccessState extends SocialStates {}
+
+class SocialGetPostImageLoadingState extends SocialStates {}
+class SocialGetPostImageSuccessState extends SocialStates {}
+class SocialGetPostImageErrorState extends SocialStates {
+  final String error;
+
+  SocialGetPostImageErrorState(this.error);
+}
+
+class SocialCreatePostLoadingState extends SocialStates {}
+class SocialCreatePostSuccessState extends SocialStates {}
+class SocialCreatePostErrorState extends SocialStates {
+  final String error;
+
+  SocialCreatePostErrorState(this.error);
+}
+
+class SocialCreatePostWithImageLoadingState extends SocialStates {}
+class SocialCreatePostWithImageErrorState extends SocialStates {
+  final String error;
+
+  SocialCreatePostWithImageErrorState(this.error);
+}

@@ -7,10 +7,7 @@ void pushAndFinish(
   Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(
-      builder: (context) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: screen,
-      ),
+      builder: (context) => screen,
     ),
     (route) => false,
   );
@@ -23,10 +20,7 @@ void push(
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) {
-      return Directionality(
-        textDirection: TextDirection.rtl,
-        child: screen,
-      );
+      return screen;
     }),
   );
 }

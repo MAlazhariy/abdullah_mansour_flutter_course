@@ -1,6 +1,7 @@
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
 import 'package:firstapp/shared/components/components.dart';
+import 'package:firstapp/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +24,14 @@ class UpdateCoverScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text(
               'Update cover photo',
+            ),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                IconBroken.Arrow___Left,
+              ),
             ),
           ),
           body: Padding(

@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
-import 'package:firstapp/modules/social_app/edit_profile/edit_profile_screen.dart';
 import 'package:firstapp/modules/social_app/new_post/new_post_screen.dart';
 import 'package:firstapp/shared/components/components.dart';
 import 'package:firstapp/shared/styles/icon_broken.dart';
@@ -92,26 +91,6 @@ class SocialLayout extends StatelessWidget {
           size: 30,
         ),
         tooltip: 'Add post',
-        backgroundColor: Colors.white,
-      );
-    }
-    else if (currentIndex == 3){
-      // edit settings
-      return FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const EditProfileScreen(),
-            ),
-          );
-        },
-        child: const Icon(
-          IconBroken.Edit,
-          color: Colors.blueAccent,
-          size: 30,
-        ),
-        tooltip: 'Edit',
         backgroundColor: Colors.white,
       );
     }

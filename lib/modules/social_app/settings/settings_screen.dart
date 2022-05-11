@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       MaterialButton(
                         onPressed: () {
-                          cubit.updateCoverImage(context);
+                          cubit.getCoverImage(context);
                         },
                         minWidth: 0,
                         color: Colors.black38,
@@ -93,7 +93,7 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       MaterialButton(
                         onPressed: () {
-                          cubit.updateProfileImage(context);
+                          cubit.getProfileImage(context);
                         },
                         minWidth: 0,
                         color: Colors.black38,

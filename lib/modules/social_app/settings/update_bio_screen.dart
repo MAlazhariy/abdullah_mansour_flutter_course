@@ -31,6 +31,14 @@ class UpdateBioScreen extends StatelessWidget {
             title: const Text(
               'Update Bio',
             ),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                IconBroken.Arrow___Left,
+              ),
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(10),

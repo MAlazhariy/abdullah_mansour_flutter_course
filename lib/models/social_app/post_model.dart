@@ -1,9 +1,9 @@
-
 class PostModel {
 
   late String uId;
   late String name;
-  late String image;
+  late String userImage;
+
   // post attributes
   late String text;
   late String postImage;
@@ -13,7 +13,7 @@ class PostModel {
   PostModel({
     required this.name,
     required this.uId,
-    required this.image,
+    required this.userImage,
     required this.text,
     required this.postImage,
     required this.dateTime,
@@ -23,23 +23,60 @@ class PostModel {
   PostModel.fromJson(Map<String, dynamic> json){
     name = json['name'];
     uId = json['uId'];
-    image = json['userImage'];
+    userImage = json['userImage'];
     text = json['text'];
     postImage = json['postImage'];
     dateTime = json['dateTime'];
     milSecEpoch = json['milSecEpoch'];
   }
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       'name': name,
       'uId': uId,
-      'userImage': image,
+      'userImage': userImage,
       'text': text,
       'postImage': postImage,
       'dateTime': dateTime,
       'milSecEpoch': milSecEpoch,
     };
   }
+
+}
+
+class GetPostModel extends PostModel {
+  /// contains uIds of users who liked the post
+  List<String> likes = [];
+  final String postId;
+
+  // /// contains uIds of users who liked the post
+  // List<String> comments = [];
+
+
+  GetPostModel({
+    required String name,
+    required String uId,
+    required String userImage,
+    required String text,
+    required String postImage,
+    required String dateTime,
+    required int milSecEpoch,
+    required this.postId,
+    required this.likes,
+  }): super(
+    name: name,
+    uId: uId,
+    userImage: userImage,
+    text: text,
+    postImage: postImage,
+    dateTime: dateTime,
+    milSecEpoch: milSecEpoch,
+  );
+
+  GetPostModel.fromJson({
+    required Map<String, dynamic> json,
+    required this.postId,
+    required this.likes,
+  }): super.fromJson(json);
 
 }

@@ -17,6 +17,7 @@ import 'package:firstapp/shared/components/push.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class SocialCubit extends Cubit<SocialStates> {
   SocialCubit() : super(SocialInitState());
@@ -32,6 +33,8 @@ class SocialCubit extends Cubit<SocialStates> {
   File? coverImage;
   File? profileImage;
   File? postImage;
+
+  List<GetPostModel> posts = [];
 
   List<Widget> screens = [
     const HomeScreen(),
@@ -225,7 +228,6 @@ class SocialCubit extends Cubit<SocialStates> {
           text: text,
           postImage: url,
         );
-
       }).catchError((error) {
         emit(SocialCreatePostWithImageErrorState(error.toString()));
         log('error when getDownloadURL inside createPostWithImage: ${error.toString()}');
@@ -240,7 +242,7 @@ class SocialCubit extends Cubit<SocialStates> {
     required String text,
     String postImage = '',
   }) async {
-    if(postImage.isEmpty) emit(SocialCreatePostLoadingState());
+    if (postImage.isEmpty) emit(SocialCreatePostLoadingState());
 
     var now = DateTime.now();
 
@@ -248,10 +250,13 @@ class SocialCubit extends Cubit<SocialStates> {
     postModel = PostModel(
       name: userModel!.name,
       uId: userModel!.uId,
-      image: userModel!.image,
+      userImage: userModel!.image,
       text: text,
       postImage: postImage,
-      dateTime: now.toString(),
+      // january 21, 2021 at 11:00 pm
+      dateTime: DateFormat('MMMM dd, yyyy - hh:mm aa')
+          .format(now)
+          .replaceAll('-', 'at'),
       milSecEpoch: now.millisecondsSinceEpoch,
     );
 
@@ -263,6 +268,54 @@ class SocialCubit extends Cubit<SocialStates> {
     }).catchError((error) {
       log('error when createNewPost: ${error.toString()}');
       emit(SocialCreatePostErrorState(error.toString()));
+    });
+  }
+
+  void getPosts() {
+    emit(SocialGetPostsLoadingState());
+
+    FirebaseFirestore.instance.collection('posts').get().then((value) {
+      for (var postDoc in value.docs) {
+        // get post likes ids
+        postDoc.reference.collection('likes').get().then((value) {
+          posts.add(GetPostModel.fromJson(
+            json: postDoc.data(),
+            postId: postDoc.id,
+            likes: value.docs.map((e) => e.id).toList(),
+          ));
+        }).catchError((error) {});
+      }
+      emit(SocialGetPostsSuccessState());
+    }).catchError((error) {
+      log('error when getPosts: ${error.toString()}');
+      emit(SocialGetPostsErrorState(error.toString()));
+    });
+  }
+
+  Future<void> likePost({
+    required int postIndex,
+  }) async {
+    String postId = posts[postIndex].postId;
+    bool isLiked = posts[postIndex].likes.contains(userModel!.uId);
+
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .doc(userModel!.uId)
+        .set({
+      'like': !isLiked,
+    }).then((_) {
+      if(isLiked){
+        posts[postIndex].likes.remove(userModel!.uId);
+      } else {
+        posts[postIndex].likes.add(userModel!.uId);
+      }
+
+      emit(SocialLikePostSuccessState());
+    }).catchError((error) {
+      log('error when likePost: ${error.toString()}');
+      emit(SocialLikePostErrorState(error.toString()));
     });
   }
 }

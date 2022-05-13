@@ -13,6 +13,7 @@ import 'package:firstapp/modules/social_app/settings/update_cover_screen.dart';
 import 'package:firstapp/modules/social_app/settings/update_profile_image_screen.dart';
 import 'package:firstapp/modules/social_app/users/users_screen.dart';
 import 'package:firstapp/shared/components/constants.dart';
+import 'package:firstapp/shared/components/dismiss_keyboard.dart';
 import 'package:firstapp/shared/components/push.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,8 @@ class SocialCubit extends Cubit<SocialStates> {
 
   List<GetPostModel> posts = [];
 
+  bool showCommentSendButton = false;
+
   List<Widget> screens = [
     const HomeScreen(),
     const ChatsScreen(),
@@ -49,6 +52,11 @@ class SocialCubit extends Cubit<SocialStates> {
     'Users',
     'Settings',
   ];
+
+  void sendCommentVisibility(String comment) {
+    showCommentSendButton = comment.isNotEmpty;
+    emit(SocialChangeSendCommentVisibilityState());
+  }
 
   void getUserData() {
     emit(SocialGetUserLoadingState());
@@ -274,16 +282,55 @@ class SocialCubit extends Cubit<SocialStates> {
   void getPosts() {
     emit(SocialGetPostsLoadingState());
 
-    FirebaseFirestore.instance.collection('posts').get().then((value) {
-      for (var postDoc in value.docs) {
-        // get post likes ids
-        postDoc.reference.collection('likes').get().then((value) {
-          posts.add(GetPostModel.fromJson(
-            json: postDoc.data(),
-            postId: postDoc.id,
-            likes: value.docs.map((e) => e.id).toList(),
-          ));
-        }).catchError((error) {});
+    FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('milSecEpoch', descending: true)
+        .get()
+        .then((value) async {
+      for (int i = 0; i < value.docs.length; i++) {
+        var postDoc = value.docs[i];
+
+        log(postDoc.data()['text']);
+
+        // get likes
+        await postDoc.reference
+            .collection('likes')
+            .where('like', isEqualTo: true)
+            .get()
+            .then((likeValue) {
+          posts.add(
+            GetPostModel.fromJson(
+              json: postDoc.data(),
+              postId: postDoc.id,
+              likes: likeValue.docs.map((e) => e.id).toList(),
+            ),
+          );
+        }).catchError((error) {
+          log('error when get post likes: ${error.toString()}');
+        });
+
+        // get comments
+        await postDoc.reference
+            .collection('comments')
+            .orderBy('milSecEpoch', descending: false)
+            .get()
+            .then((commentValue) {
+          posts[i].comments = [];
+
+          for (var commentDoc in commentValue.docs) {
+            posts[i].comments!.add(
+                  CommentModel(
+                    comment: commentDoc.data()['comment'],
+                    uId: commentDoc.data()['uId'],
+                    name: commentDoc.data()['name'],
+                    userImage: commentDoc.data()['userImage'],
+                    milSecEpoch: commentDoc.data()['milSecEpoch'],
+                  ),
+                );
+          }
+        }).catchError((error) {
+          log('error when get post comments: ${error.toString()}');
+        });
       }
       emit(SocialGetPostsSuccessState());
     }).catchError((error) {
@@ -306,7 +353,7 @@ class SocialCubit extends Cubit<SocialStates> {
         .set({
       'like': !isLiked,
     }).then((_) {
-      if(isLiked){
+      if (isLiked) {
         posts[postIndex].likes.remove(userModel!.uId);
       } else {
         posts[postIndex].likes.add(userModel!.uId);
@@ -316,6 +363,36 @@ class SocialCubit extends Cubit<SocialStates> {
     }).catchError((error) {
       log('error when likePost: ${error.toString()}');
       emit(SocialLikePostErrorState(error.toString()));
+    });
+  }
+
+  Future<void> commentOnPost({
+    required String comment,
+    required GetPostModel postModel,
+  }) async {
+
+    var commentModel = CommentModel(
+      comment: comment,
+      uId: userModel!.uId,
+      name: userModel!.name,
+      userImage: userModel!.image,
+      milSecEpoch: DateTime.now().millisecondsSinceEpoch,
+    );
+
+    // upload comment in Firebase
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postModel.postId)
+        .collection('comments')
+        .doc()
+        .set(commentModel.toMap()).then((_) {
+          // add comment to post model
+          postModel.comments!.add(commentModel);
+          showCommentSendButton = false;
+          emit(SocialCommentPostSuccessState());
+    }).catchError((error) {
+      log('error when commentPost: ${error.toString()}');
+      emit(SocialCommentPostErrorState(error.toString()));
     });
   }
 }

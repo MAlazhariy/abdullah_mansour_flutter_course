@@ -96,13 +96,13 @@ class SettingsScreen extends StatelessWidget {
                           cubit.getProfileImage(context);
                         },
                         minWidth: 0,
-                        color: Colors.black38,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         shape: const CircleBorder(),
                         padding: const EdgeInsets.all(6),
                         child: const Icon(
                           IconBroken.Camera,
                           size: 20,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ],

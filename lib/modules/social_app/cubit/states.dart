@@ -2,6 +2,8 @@ abstract class SocialStates{}
 
 class SocialInitState extends SocialStates {}
 
+class SocialChangeSendCommentVisibilityState extends SocialStates {}
+
 /// get user data
 class SocialGetUserLoadingState extends SocialStates {}
 class SocialGetUserSuccessState extends SocialStates {}
@@ -113,4 +115,12 @@ class SocialLikePostErrorState extends SocialStates {
   final String error;
 
   SocialLikePostErrorState(this.error);
+}
+
+/// comment on a post
+class SocialCommentPostSuccessState extends SocialStates {}
+class SocialCommentPostErrorState extends SocialStates {
+  final String error;
+
+  SocialCommentPostErrorState(this.error);
 }

@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:firstapp/models/social_app/social_user_model.dart';
+import 'package:firstapp/modules/social_app/comments_screen/Comments_screen.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
+import 'package:firstapp/shared/components/constants.dart';
+import 'package:firstapp/shared/components/push.dart';
 import 'package:firstapp/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -95,7 +98,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 3),
-                        const Icon(
+                        if(postModel.name == 'Mostafa Alazhariy')
+                          const Icon(
                           Icons.check_circle,
                           color: Colors.blueAccent,
                           size: 14.5,
@@ -275,9 +279,9 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.green,
               ),
               const SizedBox(width: 3.5),
-              const Text(
-                '0 comments',
-                style: TextStyle(
+              Text(
+                '${postModel.comments?.length ?? ''} comments',
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -315,15 +319,29 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(width: 11),
               // write a comment
-              const Text(
-                'write a comment ...',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
+              Expanded(
+                child: MaterialButton(
+                  onPressed: () {
+                    push(
+                      context,
+                      CommentsScreen(postIndex: index),
+                    );
+                  },
+                  padding: EdgeInsets.zero,
+                  minWidth: 0,
+                  child: const Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      'write a comment ...',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              const Spacer(),
               const SizedBox(width: 3),
               // like button
               MaterialButton(
@@ -344,7 +362,7 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(width: 3),
                     Text(
                       postModel.likes.contains(userModel.uId)
-                          ? 'dislike'
+                          ? 'liked'
                           : 'like',
                       style: const TextStyle(
                         color: Colors.grey,

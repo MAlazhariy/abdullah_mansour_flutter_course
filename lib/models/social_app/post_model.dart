@@ -45,12 +45,12 @@ class PostModel {
 }
 
 class GetPostModel extends PostModel {
-  /// contains uIds of users who liked the post
-  List<String> likes = [];
   final String postId;
 
-  // /// contains uIds of users who liked the post
-  // List<String> comments = [];
+  /// contains uIds of users who liked the post
+  List<String> likes = [];
+
+  List<CommentModel>? comments;
 
 
   GetPostModel({
@@ -63,6 +63,7 @@ class GetPostModel extends PostModel {
     required int milSecEpoch,
     required this.postId,
     required this.likes,
+    this.comments,
   }): super(
     name: name,
     uId: uId,
@@ -77,6 +78,42 @@ class GetPostModel extends PostModel {
     required Map<String, dynamic> json,
     required this.postId,
     required this.likes,
-  }): super.fromJson(json);
+    this.comments,
+  }) : super.fromJson(json);
 
+}
+
+class CommentModel {
+
+  late String comment;
+  late String uId;
+  late String name;
+  late String userImage;
+  late int milSecEpoch;
+
+  CommentModel({
+    required this.comment,
+    required this.uId,
+    required this.name,
+    required this.userImage,
+    required this.milSecEpoch,
+  });
+
+  CommentModel.fromJson(Map<String, dynamic> json){
+    comment = json['comment'];
+    uId = json['uId'];
+    name = json['name'];
+    userImage = json['userImage'];
+    milSecEpoch = json['milSecEpoch'];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'comment': comment,
+      'uId': uId,
+      'name': name,
+      'userImage': userImage,
+      'milSecEpoch': milSecEpoch,
+    };
+  }
 }

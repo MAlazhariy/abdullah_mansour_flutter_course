@@ -38,6 +38,7 @@ class SocialCubit extends Cubit<SocialStates> {
   File? postImage;
 
   List<GetPostModel> posts = [];
+  List<SocialUserModel> users = [];
 
   bool showCommentSendButton = false;
 
@@ -61,11 +62,6 @@ class SocialCubit extends Cubit<SocialStates> {
   }
 
   void getUserData() {
-    if(uId.isEmpty){
-      log('uId is empty');
-      return;
-    }
-
     emit(SocialGetUserLoadingState());
 
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
@@ -422,5 +418,23 @@ class SocialCubit extends Cubit<SocialStates> {
       SocialLoginScreen(),
     );
     emit(SocialLogoutState());
+  }
+
+  void getAllUsers() {
+    emit(SocialGetAllUsersLoadingState());
+
+    FirebaseFirestore.instance.collection('users').get().then((value) async {
+      for (var user in value.docs) {
+        users.add(
+          SocialUserModel.fromJson(
+            user.data(),
+          ),
+        );
+      }
+      emit(SocialGetAllUsersSuccessState());
+    }).catchError((error) {
+      log('error when getAllUsers: ${error.toString()}');
+      emit(SocialGetAllUsersErrorState(error.toString()));
+    });
   }
 }

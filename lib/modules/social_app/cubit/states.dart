@@ -13,7 +13,7 @@ class SocialGetUserErrorState extends SocialStates {
   SocialGetUserErrorState(this.error);
 }
 
-// get posts
+/// get posts
 class SocialGetPostsLoadingState extends SocialStates {}
 class SocialGetPostsSuccessState extends SocialStates {}
 class SocialGetPostsErrorState extends SocialStates {
@@ -127,3 +127,12 @@ class SocialCommentPostErrorState extends SocialStates {
 
 /// logout
 class SocialLogoutState extends SocialStates {}
+
+/// get all users
+class SocialGetAllUsersLoadingState extends SocialStates {}
+class SocialGetAllUsersSuccessState extends SocialStates {}
+class SocialGetAllUsersErrorState extends SocialStates {
+  final String error;
+
+  SocialGetAllUsersErrorState(this.error);
+}

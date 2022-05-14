@@ -3,6 +3,7 @@ import 'package:firstapp/modules/social_app/social_login/login_screen.dart';
 import 'package:firstapp/modules/social_app/social_register/register_cubit/register_cubit.dart';
 import 'package:firstapp/modules/social_app/social_register/register_cubit/register_states.dart';
 import 'package:firstapp/shared/components/components.dart';
+import 'package:firstapp/shared/components/push.dart';
 import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,11 +37,10 @@ class SocialRegisterScreen extends StatelessWidget {
               snackColor: Colors.green,
               seconds: 1,
             );
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SocialLayout(),
-                ));
+            pushAndFinish(
+              context,
+              const SocialLayout(),
+            );
           }
         },
         builder: (context, state) {
@@ -301,6 +301,7 @@ class SocialRegisterScreen extends StatelessWidget {
                                       password: passwordController.text,
                                       name: nameController.text,
                                       phone: phoneController.text,
+                                      context: context,
                                     );
                                   }
                                 },

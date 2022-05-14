@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/models/social_app/social_user_model.dart';
 import 'package:firstapp/modules/social_app/social_login/login_cubit/login_states.dart';
+import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/network/remote/dio_helper.dart';
@@ -56,10 +57,12 @@ class SocialLoginCubit extends Cubit<SocialLoginStates> {
       email: email,
       password: password,
     ).then((value) {
-      emit(SocialLoginSuccessful(value.user?.uid??''));
+      emit(SocialLoginSuccessful(value.user!.uid));
 
       // save uid in cache
-      CacheHelper.setSocialUId(value.user?.uid??'');
+      CacheHelper.setSocialUId(value.user!.uid);
+      // save uid in global var
+      uId = value.user!.uid;
     }).catchError((error) {
       log('--Error during SignIn: ${error.toString()}');
       emit(SocialLoginError(error.toString()));

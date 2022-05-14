@@ -124,3 +124,6 @@ class SocialCommentPostErrorState extends SocialStates {
 
   SocialCommentPostErrorState(this.error);
 }
+
+/// logout
+class SocialLogoutState extends SocialStates {}

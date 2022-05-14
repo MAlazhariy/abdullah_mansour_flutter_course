@@ -137,7 +137,7 @@ class HomeScreen extends StatelessWidget {
               height: 1.2,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 6),
           // // hashes
           // Wrap(
           //   // crossAxisAlignment: WrapCrossAlignment.start,
@@ -254,12 +254,14 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-          const SizedBox(height: 11),
+          const SizedBox(height: 6),
           // comments and likes
           Row(
             children: [
-              const Icon(
-                IconBroken.Heart,
+              Icon(
+                postModel.likes.contains(userModel.uId)
+                    ? Icons.favorite
+                    : IconBroken.Heart,
                 size: 20,
                 color: Colors.pink,
               ),

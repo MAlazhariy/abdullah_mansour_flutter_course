@@ -7,6 +7,7 @@ import 'package:firstapp/models/shop_app/login_model.dart';
 import 'package:firstapp/models/social_app/social_user_model.dart';
 import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
 import 'package:firstapp/modules/shop_app/register/register_cubit/register_states.dart';
+import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/social_register/register_cubit/register_states.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
@@ -51,6 +52,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
     required String email,
     required String password,
     required String phone,
+    required BuildContext context,
   }) {
     // loading
     emit(SocialRegisterLoading());
@@ -68,6 +70,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
         email: email,
         phone: phone,
         uId: value.user!.uid,
+        context: context,
       );
 
     }).catchError((error) {
@@ -77,10 +80,11 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
   }
 
   void createUser({
-    required String name,
     required String email,
+    required String name,
     required String phone,
     required String uId,
+    required BuildContext context,
   }) {
     var userModel = SocialUserModel(
       email: email,
@@ -95,6 +99,10 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
 
     // save uid in cache
     CacheHelper.setSocialUId(uId);
+
+    // save uid in global var
+    uId = uId;
+    SocialCubit.get(context).userModel = SocialUserModel.fromJson(userModel.toMap());
 
     // save user model in cache
     CacheHelper.setUserModel(userModel.toMap());

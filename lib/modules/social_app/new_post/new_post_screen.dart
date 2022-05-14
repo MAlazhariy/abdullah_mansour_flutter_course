@@ -105,7 +105,8 @@ class NewPostScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 3),
-                              const Icon(
+                              if(cubit.userModel!.name == 'Mostafa Alazhariy')
+                                const Icon(
                                 Icons.check_circle,
                                 color: Colors.blueAccent,
                                 size: 14.5,
@@ -196,20 +197,20 @@ class NewPostScreen extends StatelessWidget {
                       ),
                     ),
                     // add hash
-                    Expanded(
-                      child: MaterialButton(
-                        onPressed: () {},
-                        textColor: Colors.blueAccent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text('#'),
-                            SizedBox(width: 5),
-                            Text('Hash'),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: MaterialButton(
+                    //     onPressed: () {},
+                    //     textColor: Colors.blueAccent,
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const [
+                    //         Text('#'),
+                    //         SizedBox(width: 5),
+                    //         Text('Hash'),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

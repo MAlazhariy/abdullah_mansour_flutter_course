@@ -154,6 +154,15 @@ class SettingsScreen extends StatelessWidget {
                   'edit bio',
                 ),
               ),
+
+              MaterialButton(
+                child: const Text(
+                  'LOGOUT',
+                ),
+                onPressed: () {
+                  cubit.logout(context);
+                },
+              ),
             ],
           ),
         );

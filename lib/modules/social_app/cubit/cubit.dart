@@ -11,10 +11,12 @@ import 'package:firstapp/modules/social_app/home/home_screen.dart';
 import 'package:firstapp/modules/social_app/settings/settings_screen.dart';
 import 'package:firstapp/modules/social_app/settings/update_cover_screen.dart';
 import 'package:firstapp/modules/social_app/settings/update_profile_image_screen.dart';
+import 'package:firstapp/modules/social_app/social_login/login_screen.dart';
 import 'package:firstapp/modules/social_app/users/users_screen.dart';
 import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/components/dismiss_keyboard.dart';
 import 'package:firstapp/shared/components/push.dart';
+import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -59,6 +61,11 @@ class SocialCubit extends Cubit<SocialStates> {
   }
 
   void getUserData() {
+    if(uId.isEmpty){
+      log('uId is empty');
+      return;
+    }
+
     emit(SocialGetUserLoadingState());
 
     FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
@@ -271,7 +278,18 @@ class SocialCubit extends Cubit<SocialStates> {
     FirebaseFirestore.instance
         .collection('posts')
         .add(postModel!.toMap())
-        .then((_) {
+        .then((value) {
+      log('post id = ${value.id}');
+      // add post
+      posts.insert(
+        0,
+        GetPostModel.fromJson(
+          json: postModel!.toMap(),
+          postId: value.id,
+          likes: [],
+          comments: [],
+        ),
+      );
       emit(SocialCreatePostSuccessState());
     }).catchError((error) {
       log('error when createNewPost: ${error.toString()}');
@@ -370,7 +388,6 @@ class SocialCubit extends Cubit<SocialStates> {
     required String comment,
     required GetPostModel postModel,
   }) async {
-
     var commentModel = CommentModel(
       comment: comment,
       uId: userModel!.uId,
@@ -385,14 +402,25 @@ class SocialCubit extends Cubit<SocialStates> {
         .doc(postModel.postId)
         .collection('comments')
         .doc()
-        .set(commentModel.toMap()).then((_) {
-          // add comment to post model
-          postModel.comments!.add(commentModel);
-          showCommentSendButton = false;
-          emit(SocialCommentPostSuccessState());
+        .set(commentModel.toMap())
+        .then((_) {
+      // add comment to post model
+      postModel.comments!.add(commentModel);
+      showCommentSendButton = false;
+      emit(SocialCommentPostSuccessState());
     }).catchError((error) {
       log('error when commentPost: ${error.toString()}');
       emit(SocialCommentPostErrorState(error.toString()));
     });
+  }
+
+  void logout(BuildContext context) {
+    CacheHelper.removeSocialUId();
+    uId = '';
+    pushAndFinish(
+      context,
+      SocialLoginScreen(),
+    );
+    emit(SocialLogoutState());
   }
 }

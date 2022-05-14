@@ -44,9 +44,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _token = CacheHelper.getToken();
-    // token: acNKCwj0ywQOOmjgJopmVC1rp7MwGAlTEifxS3grRVJP8lPzSF8aqR93VtNZKFH1XeCSUU
-    // log('token: $token');
     uId = CacheHelper.getSocialUId();
 
     return MultiBlocProvider(

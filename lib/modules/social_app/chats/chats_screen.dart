@@ -1,6 +1,8 @@
 import 'package:firstapp/models/social_app/social_user_model.dart';
+import 'package:firstapp/modules/social_app/chat_details/chat_details_screen.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
+import 'package:firstapp/shared/components/push.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +24,7 @@ class ChatsScreen extends StatelessWidget {
           child: ListView.separated(
             itemBuilder: (context, index) {
               return userBuilder(
+                context: context,
                 userModel: cubit.users[index],
               );
             },
@@ -36,7 +39,10 @@ class ChatsScreen extends StatelessWidget {
     );
   }
 
-  Widget userBuilder({required SocialUserModel userModel}) {
+  Widget userBuilder({
+    required SocialUserModel userModel,
+    required BuildContext context,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -53,9 +59,13 @@ class ChatsScreen extends StatelessWidget {
         horizontal: 1.5,
         vertical: 1.5,
       ),
-
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          push(
+            context,
+            ChatDetailsScreen(theUser: userModel),
+          );
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),

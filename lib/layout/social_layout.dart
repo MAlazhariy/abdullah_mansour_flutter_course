@@ -35,6 +35,7 @@ class SocialLayout extends StatelessWidget {
             ],
           ),
           floatingActionButton: fAB(cubit.currentIndex, context),
+
           body: cubit.userModel != null
               ? Column(
                   children: [
@@ -44,6 +45,7 @@ class SocialLayout extends StatelessWidget {
                   ],
                 )
               : const Center(child: CircularProgressIndicator()),
+
           bottomNavigationBar: BottomNavigationBar(
             onTap: (index) {
               cubit.changeNavBar(index);

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firstapp/models/social_app/comment_model.dart';
+import 'package:firstapp/models/social_app/message_model.dart';
 import 'package:firstapp/models/social_app/post_model.dart';
 import 'package:firstapp/models/social_app/social_user_model.dart';
 import 'package:firstapp/modules/social_app/chats/chats_screen.dart';
@@ -39,6 +41,7 @@ class SocialCubit extends Cubit<SocialStates> {
 
   List<GetPostModel> posts = [];
   List<SocialUserModel> users = [];
+  Map<String, List<MessageModel>?> chats = {};
 
   bool showCommentSendButton = false;
 
@@ -56,8 +59,8 @@ class SocialCubit extends Cubit<SocialStates> {
     'Settings',
   ];
 
-  void sendCommentVisibility(String comment) {
-    showCommentSendButton = comment.isNotEmpty;
+  void sendCommentVisibility(String text) {
+    showCommentSendButton = text.isNotEmpty;
     emit(SocialChangeSendCommentVisibilityState());
   }
 
@@ -75,6 +78,9 @@ class SocialCubit extends Cubit<SocialStates> {
   }
 
   void changeNavBar(int index) {
+    if (index == 1 && users.isEmpty) {
+      getAllUsers();
+    }
     currentIndex = index;
     emit(SocialChangeBottomNavState());
   }
@@ -425,16 +431,39 @@ class SocialCubit extends Cubit<SocialStates> {
 
     FirebaseFirestore.instance.collection('users').get().then((value) async {
       for (var user in value.docs) {
-        users.add(
-          SocialUserModel.fromJson(
-            user.data(),
-          ),
-        );
+        if (user.id != uId) {
+          users.add(
+            SocialUserModel.fromJson(
+              user.data(),
+            ),
+          );
+        }
       }
       emit(SocialGetAllUsersSuccessState());
     }).catchError((error) {
       log('error when getAllUsers: ${error.toString()}');
       emit(SocialGetAllUsersErrorState(error.toString()));
     });
+  }
+
+  void sendMessage({
+    required MessageModel messageModel,
+    required String userId,
+  }) {
+    // add message in local
+    chats.update(
+      userId, // message id
+          (value) {
+        if (value != null) {
+          value.add(messageModel);
+        } else {
+          value = [messageModel];
+        }
+        return value;
+      },
+      ifAbsent: () => [messageModel],
+    );
+    // any thing وخلاص
+    emit(SocialChangeSendCommentVisibilityState());
   }
 }

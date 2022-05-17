@@ -446,24 +446,69 @@ class SocialCubit extends Cubit<SocialStates> {
     });
   }
 
-  void sendMessage({
-    required MessageModel messageModel,
-    required String userId,
-  }) {
-    // add message in local
-    chats.update(
-      userId, // message id
-          (value) {
-        if (value != null) {
-          value.add(messageModel);
-        } else {
-          value = [messageModel];
-        }
-        return value;
-      },
-      ifAbsent: () => [messageModel],
-    );
-    // any thing وخلاص
-    emit(SocialChangeSendCommentVisibilityState());
+  void sendMessage(MessageModel messageModel) {
+    // add to my collection
+    FirebaseFirestore.instance
+    .collection('users')
+    .doc(userModel!.uId)
+    .collection('chats')
+    .doc(messageModel.receiverId)
+    .collection('messages')
+    .doc()
+    .set(messageModel.toMap())
+    .then((value) {
+      emit(SocialSendMessageSuccessState());
+    })
+    .catchError((error){
+      emit(SocialSendMessageErrorState(error.toString()));
+    });
+
+    // add to receiver collection
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(messageModel.receiverId)
+        .collection('chats')
+        .doc(userModel!.uId)
+        .collection('messages')
+        .doc()
+        .set(messageModel.toMap())
+        .then((value) {
+      emit(SocialSendMessageSuccessState());
+    })
+        .catchError((error){
+      emit(SocialSendMessageErrorState(error.toString()));
+    });
+  }
+
+  void getMessages(String receiverId) {
+    // get from my collection
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('milSecEpoch')
+        .snapshots()
+        .listen((event) {
+      chats[receiverId] = [];
+      for(var doc in event.docs){
+        var model = MessageModel.fromJson(doc.data());
+
+        chats.update(
+          receiverId, // message id
+              (value) {
+            if (value != null) {
+              value.add(model);
+              return value;
+            } else {
+              return [model];
+            }
+          },
+          ifAbsent: () => [model],
+        );
+      }
+      emit(SocialGetMessagesSuccessState());
+    });
   }
 }

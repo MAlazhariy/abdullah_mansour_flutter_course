@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:bot_toast/bot_toast.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +37,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final botToastBuilder = BotToastInit();
+  // final botToastBuilder = BotToastInit();
 
   MyApp({Key? key}) : super(key: key);
 
@@ -69,11 +68,11 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: AppCubit.isDark ? ThemeMode.dark : ThemeMode.light,
-            builder: (context, child) {
-              child = botToastBuilder(context, child);
-              return child;
-            },
-            navigatorObservers: [BotToastNavigatorObserver()],
+            // builder: (context, child) {
+            //   child = botToastBuilder(context, child);
+            //   return child;
+            // },
+            // navigatorObservers: [BotToastNavigatorObserver()],
             // home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
             home: uId.isEmpty
                 ? SocialLoginScreen()

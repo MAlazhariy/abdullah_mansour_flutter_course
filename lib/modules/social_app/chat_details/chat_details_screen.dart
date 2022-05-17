@@ -29,192 +29,202 @@ class ChatDetailsScreen extends StatelessWidget {
       SocialCubit.get(context).chats.putIfAbsent(theUser.uId, () => []);
     }
 
-    return BlocConsumer<SocialCubit, SocialStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        var cubit = SocialCubit.get(context);
+    return Builder(
+      builder: (context) {
+        SocialCubit.get(context).getMessages(theUser.uId);
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Row(
-              children: [
-                // user image
-                Container(
-                  width: 43,
-                  height: 43,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        theUser.image,
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 11),
-                // name and bio
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // name
-                      Row(
-                        children: [
-                          Text(
-                            theUser.name,
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
+        return BlocConsumer<SocialCubit, SocialStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            var cubit = SocialCubit.get(context);
+
+            return Scaffold(
+              appBar: AppBar(
+                title: Row(
+                  children: [
+                    // user image
+                    Container(
+                      width: 43,
+                      height: 43,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            theUser.image,
                           ),
-                          const SizedBox(width: 3),
-                          if (theUser.name == 'Mostafa Alazhariy')
-                            const Icon(
-                              Icons.check_circle,
-                              color: Colors.blueAccent,
-                              size: 14.5,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 11),
+                    // name and bio
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // name
+                          Row(
+                            children: [
+                              Text(
+                                theUser.name,
+                                style: const TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              if (theUser.name == 'Mostafa Alazhariy')
+                                const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.blueAccent,
+                                  size: 14.5,
+                                ),
+                            ],
+                          ),
+                          // bio
+                          Text(
+                            theUser.bio,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              overflow: TextOverflow.ellipsis,
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
                       ),
-                      // bio
-                      Text(
-                        theUser.bio,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                    ),
+                    const SizedBox(width: 11),
+                  ],
+                ),
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    IconBroken.Arrow___Left,
                   ),
                 ),
-                const SizedBox(width: 11),
-              ],
-            ),
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                IconBroken.Arrow___Left,
+                elevation: 2,
+                shadowColor: Colors.grey[200],
               ),
-            ),
-            elevation: 2,
-            shadowColor: Colors.grey[200],
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // messages ui
-              Expanded(
-                child: SingleChildScrollView(
-                  reverse: true,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 5),
-                      ListView.builder(
-                        itemBuilder: (context, index) {
-                          if (cubit.chats.containsKey(theUser.uId)) {
-                            return messageBuilder(cubit.chats[theUser.uId]![index]);
-                          }
-                          return const SizedBox();
-                        },
-                        itemCount: cubit.chats[theUser.uId]?.length ??0,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        reverse: false,
-                      ),
-                      const SizedBox(height: 5),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Divider
-              Container(
-                height: 0.8,
-                width: double.maxFinite,
-                color: Colors.grey[300],
-                margin: const EdgeInsets.symmetric(
-                  vertical: 9,
-                ),
-              ),
-
-              // send message
-              Row(
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // messages ui
                   Expanded(
-                    child: TextFormField(
-                      controller: messageController,
-                      minLines: 1,
-                      maxLines: 3,
-                      onChanged: (value) {
-                        cubit.sendCommentVisibility(value.trim());
-                      },
-                      keyboardType: TextInputType.multiline,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Write a message ..',
+                    child: SingleChildScrollView(
+                      reverse: true,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 5),
+                          ListView.builder(
+                            itemBuilder: (context, index) {
+                              if (cubit.chats.containsKey(theUser.uId)) {
+                                return messageBuilder(cubit.chats[theUser.uId]![index]);
+                              }
+                              return const SizedBox();
+                            },
+                            itemCount: cubit.chats[theUser.uId]?.length ??0,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            reverse: false,
+                          ),
+                          const SizedBox(height: 5),
+                        ],
                       ),
                     ),
                   ),
-                  // send button
-                  if (cubit.showCommentSendButton)
-                    MaterialButton(
-                      onPressed: () {
-                        // todo: handle send message method
 
-                        var now = DateTime.now();
-                        String dateTime = DateFormat('MMMM dd, yyyy - hh:mm aa')
-                            .format(now)
-                            .replaceAll('-', 'at');
-
-                        var _mModel = MessageModel(
-                          dateTime: dateTime,
-                          receiverId: theUser.uId,
-                          senderId: uId,
-                          message: messageController.text.trim(),
-                          milSecEpoch: now.millisecondsSinceEpoch,
-                        );
-
-                        cubit.sendMessage(
-                          messageModel: _mModel,
-                          userId: theUser.uId,
-                        );
-
-                        messageController.text = '';
-
-                        // cubit
-                        //     .commentOnPost(
-                        //   comment: messageController.text.trim(),
-                        //   postModel: postModel,
-                        // )
-                        //     .then((value) {
-                        //   messageController.text = '';
-                        // });
-                      },
-                      padding: const EdgeInsets.all(8),
-                      minWidth: 0,
-                      color: Colors.blueAccent,
-                      shape: const CircleBorder(),
-                      child: const Icon(
-                        IconBroken.Send,
-                        color: Colors.white,
-                        size: 23,
-                      ),
+                  // Divider
+                  Container(
+                    height: 0.8,
+                    width: double.maxFinite,
+                    color: Colors.grey[300],
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 5,
                     ),
+                  ),
+
+                  // send message
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 11,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: messageController,
+                            minLines: 1,
+                            maxLines: 3,
+                            onChanged: (value) {
+                              cubit.sendCommentVisibility(value.trim());
+                            },
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Write a message ..',
+                            ),
+                          ),
+                        ),
+                        // send button
+                        if (cubit.showCommentSendButton)
+                          MaterialButton(
+                            onPressed: () {
+                              // todo: handle send message method
+
+                              var now = DateTime.now();
+                              String dateTime = DateFormat('MMMM dd, yyyy - hh:mm aa')
+                                  .format(now)
+                                  .replaceAll('-', 'at');
+
+                              var _mModel = MessageModel(
+                                dateTime: dateTime,
+                                receiverId: theUser.uId,
+                                senderId: uId,
+                                message: messageController.text.trim(),
+                                milSecEpoch: now.millisecondsSinceEpoch,
+                              );
+
+                              cubit.sendMessage(_mModel);
+
+                              messageController.text = '';
+                              cubit.showCommentSendButton = false;
+
+
+                              // cubit
+                              //     .commentOnPost(
+                              //   comment: messageController.text.trim(),
+                              //   postModel: postModel,
+                              // )
+                              //     .then((value) {
+                              //   messageController.text = '';
+                              // });
+                            },
+                            padding: const EdgeInsets.all(8),
+                            minWidth: 0,
+                            color: Colors.blueAccent,
+                            shape: const CircleBorder(),
+                            child: const Icon(
+                              IconBroken.Send,
+                              color: Colors.white,
+                              size: 23,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         );
-      },
+      }
     );
   }
 

@@ -145,7 +145,3 @@ class SocialSendMessageErrorState extends SocialStates {
 }
 
 class SocialGetMessagesSuccessState extends SocialStates {}
-class SocialGetMessagesErrorState extends SocialStates {
-  SocialGetMessagesErrorState(this.error);
-  final String error;
-}

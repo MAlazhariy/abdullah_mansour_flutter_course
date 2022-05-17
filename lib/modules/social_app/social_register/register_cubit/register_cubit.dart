@@ -108,6 +108,7 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
         .set(userModel.toMap())
         .then((_) {
       emit(SocialCreateUserSuccessful());
+      SocialCubit()..getUserData()..getPosts();
     }).catchError((error) {
       log('-- Error when createUser: ${error.toString()}');
       emit(SocialRegisterError(error.toString()));

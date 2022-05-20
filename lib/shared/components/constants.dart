@@ -21,3 +21,4 @@ void signOut(BuildContext context){
 
 
 String uId = '';
+String token = '';

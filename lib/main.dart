@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/layout/social_layout.dart';
+import 'package:firstapp/modules/more/battery_native_screen.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/login/login_screen.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
@@ -14,8 +18,14 @@ import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:firstapp/shared/styles/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+Future<void> onBackgroundHandler(RemoteMessage message) async {
+  log('onBackgroundMessage: ${message.data.toString()}');
+  Fluttertoast.showToast(msg: 'onBackgroundMessage');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,9 +37,30 @@ void main() async {
   await Hive.openBox('shop_app');
 
   // init Firebase
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    // options: const FirebaseOptions(
+    //   apiKey: "AIzaSyDZ8RwjQKQPol5_t6LkWdokmlE_wyxF8E4",
+    //   appId: "flutter.course.firstApp",
+    //   messagingSenderId: "XXX",
+    //   projectId: "flutter.course.firstApp",
+    // ),
+  );
 
+  token = await FirebaseMessaging.instance.getToken() ?? '';
+  // log(token);
   // AppCubit.isDark = CacheHelper.getBool(key: 'isDark') ?? false;
+
+  FirebaseMessaging.onMessage.listen((event) {
+    log('onMessage: ${event.data.toString()}');
+    Fluttertoast.showToast(msg: 'on message');
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    log('onMessageOpenedApp: ${event.data.toString()}');
+    Fluttertoast.showToast(msg: 'onMessageOpenedApp');
+  });
+
+  FirebaseMessaging.onBackgroundMessage(onBackgroundHandler);
 
   if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
@@ -76,7 +107,7 @@ class MyApp extends StatelessWidget {
             // home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
             home: uId.isEmpty
                 ? SocialLoginScreen()
-                : const SocialLayout(),
+                : const BatteryNativeScreen(),
           );
         },
         listener: (context, state) {},

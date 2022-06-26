@@ -13,11 +13,11 @@ class _BatteryNativeScreenState extends State<BatteryNativeScreen> {
   static const platform = MethodChannel('samples.flutter.dev/battery');
   String _batteryLevel = 'Calculating..';
 
-  Future<void> _getBatteryLevel() async {
+  Future<void> getBatteryLevel() async {
     String batteryLevel;
     try {
       final int result = await platform.invokeMethod('getBatteryLevel');
-      batteryLevel = 'Battery level at $result % .';
+      batteryLevel = 'Battery level: $result%.';
     } on PlatformException catch (e) {
       batteryLevel = "Failed to get battery level: '${e.message}'.";
     }
@@ -29,18 +29,21 @@ class _BatteryNativeScreenState extends State<BatteryNativeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Text(_batteryLevel),
-          const SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            child: const Text('Get Battery Level'),
-            onPressed: _getBatteryLevel,
-          ),
-        ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_batteryLevel),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              child: const Text('Get Battery Level'),
+              onPressed: getBatteryLevel,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:firstapp/models/social_app/comment_model.dart';
-import 'package:firstapp/models/social_app/message_model.dart';
 
 class PostModel {
 

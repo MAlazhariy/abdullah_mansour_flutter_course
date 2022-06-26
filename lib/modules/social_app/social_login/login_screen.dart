@@ -1,16 +1,10 @@
-import 'package:firstapp/layout/shop_layout.dart';
 import 'package:firstapp/layout/social_layout.dart';
-import 'package:firstapp/modules/shop_app/login/login_cubit/login_cubit.dart';
-import 'package:firstapp/modules/shop_app/login/login_cubit/login_states.dart';
-import 'package:firstapp/modules/shop_app/register/register_screen.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/social_login/login_cubit/login_cubit.dart';
 import 'package:firstapp/modules/social_app/social_login/login_cubit/login_states.dart';
 import 'package:firstapp/modules/social_app/social_register/social_register_screen.dart';
 import 'package:firstapp/shared/components/components.dart';
-import 'package:firstapp/shared/components/constants.dart';
 import 'package:firstapp/shared/components/push.dart';
-import 'package:firstapp/shared/network/local/cache_helper.dart';
 import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

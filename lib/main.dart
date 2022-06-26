@@ -1,13 +1,8 @@
 import 'dart:io';
 import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firstapp/layout/shop_layout.dart';
-import 'package:firstapp/layout/social_layout.dart';
 import 'package:firstapp/modules/more/battery_native_screen.dart';
-import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
-import 'package:firstapp/modules/shop_app/login/login_screen.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/social_login/login_screen.dart';
 import 'package:firstapp/shared/app_cubit/app_cubit.dart';
@@ -38,13 +33,13 @@ void main() async {
 
   // init Firebase
   await Firebase.initializeApp(
-    // options: const FirebaseOptions(
-    //   apiKey: "AIzaSyDZ8RwjQKQPol5_t6LkWdokmlE_wyxF8E4",
-    //   appId: "flutter.course.firstApp",
-    //   messagingSenderId: "XXX",
-    //   projectId: "flutter.course.firstApp",
-    // ),
-  );
+      // options: const FirebaseOptions(
+      //   apiKey: "AIzaSyDZ8RwjQKQPol5_t6LkWdokmlE_wyxF8E4",
+      //   appId: "flutter.course.firstApp",
+      //   messagingSenderId: "XXX",
+      //   projectId: "flutter.course.firstApp",
+      // ),
+      );
 
   token = await FirebaseMessaging.instance.getToken() ?? '';
   // log(token);
@@ -64,13 +59,13 @@ void main() async {
 
   if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // final botToastBuilder = BotToastInit();
 
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +78,14 @@ class MyApp extends StatelessWidget {
           create: (context) => AppCubit(),
         ),
         BlocProvider(
-          create: (context) => SocialCubit()..getUserData()..getPosts(),
+          create: (context) => SocialCubit()
+            ..getUserData()
+            ..getPosts(),
         ),
 
         // shop app cubit
         // BlocProvider(
-          // create: (context) => ShopCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData(),
+        // create: (context) => ShopCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData(),
         // ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
@@ -105,9 +102,8 @@ class MyApp extends StatelessWidget {
             // },
             // navigatorObservers: [BotToastNavigatorObserver()],
             // home: _token.isEmpty ? ShopAppLoginScreen() : const ShopLayout(),
-            home: uId.isEmpty
-                ? SocialLoginScreen()
-                : const BatteryNativeScreen(),
+            home:
+                uId.isEmpty ? SocialLoginScreen() : const BatteryNativeScreen(),
           );
         },
         listener: (context, state) {},

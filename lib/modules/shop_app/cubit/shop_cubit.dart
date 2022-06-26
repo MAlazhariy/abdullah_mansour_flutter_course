@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firstapp/models/shop_app/categories_model.dart';
 import 'package:firstapp/models/shop_app/change_favorites_model.dart';
 import 'package:firstapp/models/shop_app/get_favorites_model.dart';
@@ -50,11 +49,11 @@ class ShopCubit extends Cubit<ShopStates> {
       endPoint: HOME,
     ).then((value) {
       homeModel = HomeModel.fromJson(value.data);
-      homeModel!.data.products.forEach((element) {
+      for (var element in homeModel!.data.products) {
         favorites.addAll({
           element.id: element.inFavorites,
         });
-      });
+      }
 
       emit(ShopSuccessHomeDataState());
     }).catchError((error) {

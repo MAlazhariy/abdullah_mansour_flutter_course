@@ -14,7 +14,10 @@ class UpdateCoverScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is SocialUpdateFireStoreCoverSuccessState) {
           Navigator.pop(context);
-          snkBar(context: context, title: 'updated successfully',);
+          snkBar(
+            context: context,
+            title: 'updated successfully',
+          );
         }
       },
       builder: (context, state) {
@@ -38,22 +41,21 @@ class UpdateCoverScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                if(state is SocialUploadCoverLoadingState)
+                if (state is SocialUploadCoverLoadingState)
                   const Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 11,
                     ),
                     child: LinearProgressIndicator(),
                   ),
-
                 Container(
                   width: double.maxFinite,
                   height: 200,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
-                      // topLeft: Radius.circular(10),
-                      // topRight: Radius.circular(10),
-                    ),
+                        // topLeft: Radius.circular(10),
+                        // topRight: Radius.circular(10),
+                        ),
                     image: DecorationImage(
                       image: FileImage(
                         cubit.coverImage!,

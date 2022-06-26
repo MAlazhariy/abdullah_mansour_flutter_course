@@ -1,7 +1,6 @@
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
 import 'package:firstapp/modules/social_app/settings/update_bio_screen.dart';
-import 'package:firstapp/modules/social_app/settings/update_cover_screen.dart';
 import 'package:firstapp/shared/components/push.dart';
 import 'package:firstapp/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';

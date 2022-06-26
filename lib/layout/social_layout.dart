@@ -1,11 +1,7 @@
-import 'dart:developer';
-import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
 import 'package:firstapp/modules/social_app/new_post/new_post_screen.dart';
-import 'package:firstapp/shared/components/components.dart';
 import 'package:firstapp/shared/styles/icon_broken.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

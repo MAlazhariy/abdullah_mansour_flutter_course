@@ -1,13 +1,10 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/models/social_app/social_user_model.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/social_login/login_cubit/login_states.dart';
 import 'package:firstapp/shared/components/constants.dart';
-import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';
-import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

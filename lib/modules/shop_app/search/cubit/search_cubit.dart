@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:firstapp/models/shop_app/change_favorites_model.dart';
 import 'package:firstapp/models/shop_app/search_model.dart';
-import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/search/cubit/search_states.dart';
 import 'package:firstapp/shared/network/end_points.dart';
 import 'package:firstapp/shared/network/local/cache_helper.dart';

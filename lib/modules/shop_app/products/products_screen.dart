@@ -1,12 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
 import 'package:firstapp/models/shop_app/categories_model.dart';
 import 'package:firstapp/models/shop_app/home_model.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/cubit/shop_states.dart';
 import 'package:firstapp/shared/components/components.dart';
-import 'package:firstapp/shared/network/end_points.dart';
-import 'package:firstapp/shared/network/remote/dio_helper.dart';
 import 'package:firstapp/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

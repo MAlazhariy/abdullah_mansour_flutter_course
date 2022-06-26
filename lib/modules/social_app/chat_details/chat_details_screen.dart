@@ -1,14 +1,10 @@
-import 'dart:developer';
 
 import 'package:firstapp/models/social_app/message_model.dart';
-import 'package:firstapp/models/social_app/post_model.dart';
 import 'package:firstapp/models/social_app/social_user_model.dart';
 import 'package:firstapp/modules/social_app/cubit/cubit.dart';
 import 'package:firstapp/modules/social_app/cubit/states.dart';
 import 'package:firstapp/shared/components/constants.dart';
-import 'package:firstapp/shared/components/dismiss_keyboard.dart';
 import 'package:firstapp/shared/styles/icon_broken.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

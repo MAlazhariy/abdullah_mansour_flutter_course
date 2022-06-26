@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:firstapp/modules/shop_app/cubit/shop_cubit.dart';
 import 'package:firstapp/modules/shop_app/search/cubit/search_cubit.dart';
